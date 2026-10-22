@@ -1,5 +1,20 @@
+name: duolingo_wichi
+description: "Aplicacion interactiva para aprender idioma Wichi de Fortin Dragones"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '^3.13.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  audioplayers: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
 flutter:
   uses-material-design: true
-  assets:
-    - assets/audio/
-    - assets/images/
