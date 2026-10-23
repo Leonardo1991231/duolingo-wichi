@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'screens/pantalla_inicio.dart'; // Vincula el menú principal
+import 'screens/pantalla_bienvenida.dart'; // Ahora importamos la bienvenida
 
 void main() => runApp(const WichiFacilApp());
 
@@ -16,7 +16,7 @@ class WichiFacilApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
       ),
-      home: const PantallaInicio(), // Carga la Pantalla de Inicio al prender la app
+      home: const PantallaBienvenida(), // <--- Arranca con la carátula institucional
     );
   }
 }

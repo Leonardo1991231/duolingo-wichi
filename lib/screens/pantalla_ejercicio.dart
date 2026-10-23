@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart'; // <--- ¡Esta línea faltaba!
+import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+
+import '../quiz_data.dart'; // Importa el perfil global para sumar las estrellas
 
 class PantallaEjercicio extends StatefulWidget {
   const PantallaEjercicio({super.key});
@@ -20,9 +22,7 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Error al reproducir el sonido"),
-            ), // <--- Corregido el const
+            const SnackBar(content: Text("Error al reproducir el sonido")),
           );
         }
       }
@@ -37,7 +37,7 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(isCorrect ? "¡Excelente! 🎉" : "Incorrecto 😢"),
+        content: Text(isCorrect ? "¡Excellent! 🎉" : "Incorrecto 😢"),
         backgroundColor: isCorrect ? Colors.green : Colors.red,
         duration: const Duration(milliseconds: 800),
       ),
@@ -47,25 +47,35 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
       if (_currentIndex < wichiQuestions.length - 1) {
         _currentIndex++;
       } else {
-        _showFinalDialog();
+        _showFinalDialog(); // Llama a la función del cartel final
       }
     });
   }
 
   void _showFinalDialog() {
+    // Calculamos las estrellas ganadas (10 estrellas por cada acierto)
+    int recompensa = _score * 10;
+
+    // Sumamos los puntos directamente a la cuenta global del usuario
+    PerfilUsuario.estrellasTotales += recompensa;
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: const Text("¡Lección Terminada! 👏"),
         content: Text(
-          "Completaste el módulo de Wichí.\nPuntaje: $_score / ${wichiQuestions.length}",
+          "Completaste el módulo de Wichí.\n"
+          "Preguntas correctas: $_score / ${wichiQuestions.length}\n"
+          "¡Ganaste +$recompensa Estrellas! ⭐",
         ),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              Navigator.pop(context); // Cierra el cartel flotante
+              Navigator.pop(
+                context,
+              ); // Regresa automáticamente a la Pantalla de Inicio
             },
             child: const Text("Volver al Menú"),
           ),
@@ -165,42 +175,3 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
     );
   }
 }
-
-class Question {
-  final String instruction;
-  final String questionText;
-  final String audioUrl;
-  final List<String> options;
-  final String correctAnswer;
-
-  Question({
-    required this.instruction,
-    required this.questionText,
-    this.audioUrl = '',
-    required this.options,
-    required this.correctAnswer,
-  });
-}
-
-List<Question> wichiQuestions = [
-  Question(
-    instruction: "Selecciona la traducción correcta para:",
-    questionText: "Wityan",
-    audioUrl: "https://soundhelix.com",
-    options: ["Hola / Buenos días", "Adiós", "Perro", "Agua"],
-    correctAnswer: "Hola / Buenos días",
-  ),
-  Question(
-    instruction: "¿El significado de esta palabra es correcto?",
-    questionText: "Nhiyuwílh = Arcoíris",
-    options: ["Verdadero", "Falso"],
-    correctAnswer: "Verdadero",
-  ),
-  Question(
-    instruction: "Escucha el audio y selecciona el animal correcto:",
-    questionText: "🔊 Escuchar",
-    audioUrl: "https://soundhelix.com",
-    options: ["Zorro", "Burro", "Gato", "Yaguareté"],
-    correctAnswer: "Burro",
-  ),
-];

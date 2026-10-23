@@ -1,50 +1,78 @@
-import 'package:flutter/material.dart'; // <--- ¡Esta línea faltaba!
+import 'package:flutter/material.dart';
 
+import '../quiz_data.dart'; // Importa PerfilUsuario y las preguntas globales
 import 'pantalla_ejercicio.dart';
+import 'pantalla_perfil.dart';
+import 'pantalla_diccionario.dart'; // Conecta el diccionario comunitario
 
-class PantallaInicio extends StatelessWidget {
+class PantallaInicio extends StatefulWidget {
   const PantallaInicio({super.key});
 
+  @override
+  State<PantallaInicio> createState() => _PantallaInicioState();
+}
+
+class _PantallaInicioState extends State<PantallaInicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          "Wichí Lhamtés - Dragones",
+          "Wichí Lhamtés",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Colors.teal,
         elevation: 0,
         actions: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                Icon(Icons.favorite, color: Colors.red, size: 24),
-                SizedBox(width: 4),
-                Text(
-                  "5",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+          // Marcador dinámico que lee directamente de PerfilUsuario
+          Row(
+            children: [
+              const Icon(Icons.star, color: Colors.amber, size: 24),
+              const SizedBox(width: 4),
+              Text(
+                "${PerfilUsuario.estrellasTotales}",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
-                SizedBox(width: 16),
-                Icon(Icons.star, color: Colors.amber, size: 24),
-                SizedBox(width: 4),
-                Text(
-                  "120",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
+          const SizedBox(width: 10),
+          // Botón del Diccionario Comunitario
+          IconButton(
+            icon: const Icon(Icons.menu_book, color: Colors.white, size: 26),
+            tooltip: "Diccionario Comunitario",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PantallaDiccionario(),
+                ),
+              );
+            },
+          ),
+          // Botón para ir a ver el Perfil y las Medallas
+          IconButton(
+            icon: const Icon(
+              Icons.account_circle,
+              color: Colors.white,
+              size: 26,
+            ),
+            tooltip: "Ver Mi Perfil",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PantallaPerfil()),
+              ).then((_) {
+                // Al regresar del perfil, refresca la pantalla de inicio por si cambiaron los puntos
+                setState(() {});
+              });
+            },
+          ),
+          const SizedBox(width: 10),
         ],
       ),
       body: SingleChildScrollView(
@@ -116,7 +144,10 @@ class PantallaInicio extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => const PantallaEjercicio(),
               ),
-            );
+            ).then((_) {
+              // Recarga el marcador superior automáticamente al regresar de jugar
+              setState(() {});
+            });
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -141,11 +172,11 @@ class PantallaInicio extends StatelessWidget {
                 CircleAvatar(
                   backgroundColor: habilitado
                       ? color.withOpacity(0.2)
-                      : Colors.grey[400],
+                      : Colors.grey[300],
                   radius: 28,
                   child: Icon(
                     icono,
-                    color: habilitado ? color : Colors.white,
+                    color: habilitado ? color : Colors.grey,
                     size: 28,
                   ),
                 ),
@@ -159,13 +190,16 @@ class PantallaInicio extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: habilitado ? Colors.black87 : Colors.grey[600],
+                          color: habilitado ? Colors.black87 : Colors.grey,
                         ),
                       ),
                       const SizedBox(height: 5),
                       Text(
                         descripcion,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
