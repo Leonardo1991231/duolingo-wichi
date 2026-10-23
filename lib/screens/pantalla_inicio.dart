@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../quiz_data.dart'; // Importa PerfilUsuario y las preguntas globales
+import '../quiz_data.dart'; // <--- ¡Asegúrate de que tenga los dos puntos (../) antes de quiz_data.dart!
 import 'pantalla_ejercicio.dart';
 import 'pantalla_perfil.dart';
-import 'pantalla_diccionario.dart'; // Conecta el diccionario comunitario
+import 'pantalla_diccionario.dart';
+import 'pantalla_juego_infantil.dart';
 
 class PantallaInicio extends StatefulWidget {
   const PantallaInicio({super.key});
@@ -15,6 +16,10 @@ class PantallaInicio extends StatefulWidget {
 class _PantallaInicioState extends State<PantallaInicio> {
   @override
   Widget build(BuildContext context) {
+    // Sistema de Desbloqueo Automático (Basado en las estrellas de quiz_data)
+    bool modulo2Habilitado = PerfilUsuario.estrellasTotales >= 140;
+    bool modulo3Habilitado = PerfilUsuario.estrellasTotales >= 170;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -25,7 +30,6 @@ class _PantallaInicioState extends State<PantallaInicio> {
         backgroundColor: Colors.teal,
         elevation: 0,
         actions: [
-          // Marcador dinámico que lee directamente de PerfilUsuario
           Row(
             children: [
               const Icon(Icons.star, color: Colors.amber, size: 24),
@@ -41,7 +45,6 @@ class _PantallaInicioState extends State<PantallaInicio> {
             ],
           ),
           const SizedBox(width: 10),
-          // Botón del Diccionario Comunitario
           IconButton(
             icon: const Icon(Icons.menu_book, color: Colors.white, size: 26),
             tooltip: "Diccionario Comunitario",
@@ -54,7 +57,6 @@ class _PantallaInicioState extends State<PantallaInicio> {
               );
             },
           ),
-          // Botón para ir a ver el Perfil y las Medallas
           IconButton(
             icon: const Icon(
               Icons.account_circle,
@@ -67,7 +69,6 @@ class _PantallaInicioState extends State<PantallaInicio> {
                 context,
                 MaterialPageRoute(builder: (context) => const PantallaPerfil()),
               ).then((_) {
-                // Al regresar del perfil, refresca la pantalla de inicio por si cambiaron los puntos
                 setState(() {});
               });
             },
@@ -91,8 +92,9 @@ class _PantallaInicioState extends State<PantallaInicio> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 25),
 
+              // Módulo 1: Saludos
               _buildModuloBoton(
                 context: context,
                 titulo: "Módulo 1: Saludos Básicos",
@@ -100,24 +102,61 @@ class _PantallaInicioState extends State<PantallaInicio> {
                 color: Colors.teal,
                 icono: Icons.chat_bubble,
                 habilitado: true,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PantallaEjercicio(
+                      preguntas: wichiQuestions,
+                      nombreModulo: "Módulo 1: Saludos",
+                    ),
+                  ),
+                ),
               ),
 
+              // Módulo 2: Animales (Dinámico)
               _buildModuloBoton(
                 context: context,
                 titulo: "Módulo 2: Animales del Monte",
                 descripcion: "Vocabulario sobre la fauna del Chaco.",
                 color: Colors.orange,
                 icono: Icons.pets,
-                habilitado: false,
+                habilitado: modulo2Habilitado,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PantallaEjercicio(
+                      preguntas: animalesQuestions,
+                      nombreModulo: "Módulo 2: Animales del Monte",
+                    ),
+                  ),
+                ),
               ),
+
+              // Sección Especial: Rincón de Juegos Infantiles
+              const SizedBox(height: 20),
+              const Text(
+                "Rincón Infantil",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange,
+                ),
+              ),
+              const Divider(),
 
               _buildModuloBoton(
                 context: context,
-                titulo: "Módulo 3: La Familia",
-                descripcion: "Nombres de parentescos locales.",
-                color: Colors.purple,
-                icono: Icons.people,
-                habilitado: false,
+                titulo: "Juego de Memoria",
+                descripcion: "¡Encuentra las palabras iguales y gana!",
+                color: Colors.deepPurple,
+                icono: Icons.extension,
+                habilitado: true,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PantallaJuegoInfantil(),
+                  ),
+                ),
               ),
             ],
           ),
@@ -133,26 +172,19 @@ class _PantallaInicioState extends State<PantallaInicio> {
     required Color color,
     required IconData icono,
     required bool habilitado,
+    required VoidCallback onTap,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: GestureDetector(
         onTap: () {
           if (habilitado) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PantallaEjercicio(),
-              ),
-            ).then((_) {
-              // Recarga el marcador superior automáticamente al regresar de jugar
-              setState(() {});
-            });
+            onTap();
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text(
-                  "¡Completa el módulo anterior para desbloquear! 🔒",
+                  "¡Consigue más estrellas en el módulo anterior para desbloquear! 🔒",
                 ),
               ),
             );

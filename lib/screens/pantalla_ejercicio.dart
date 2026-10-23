@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-import '../quiz_data.dart'; // Importa el perfil global para sumar las estrellas
+import '../quiz_data.dart';
 
 class PantallaEjercicio extends StatefulWidget {
-  const PantallaEjercicio({super.key});
+  final List<Question> preguntas;
+  final String nombreModulo;
+
+  const PantallaEjercicio({
+    super.key,
+    required this.preguntas,
+    required this.nombreModulo,
+  });
 
   @override
   State<PantallaEjercicio> createState() => _PantallaEjercicioState();
@@ -31,32 +38,29 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
 
   void _checkAnswer(String selectedAnswer) {
     bool isCorrect =
-        selectedAnswer == wichiQuestions[_currentIndex].correctAnswer;
+        selectedAnswer == widget.preguntas[_currentIndex].correctAnswer;
 
     if (isCorrect) _score++;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(isCorrect ? "¡Excellent! 🎉" : "Incorrecto 😢"),
+        content: Text(isCorrect ? "¡Excelente! 🎉" : "Incorrecto 😢"),
         backgroundColor: isCorrect ? Colors.green : Colors.red,
         duration: const Duration(milliseconds: 800),
       ),
     );
 
     setState(() {
-      if (_currentIndex < wichiQuestions.length - 1) {
+      if (_currentIndex < widget.preguntas.length - 1) {
         _currentIndex++;
       } else {
-        _showFinalDialog(); // Llama a la función del cartel final
+        _showFinalDialog();
       }
     });
   }
 
   void _showFinalDialog() {
-    // Calculamos las estrellas ganadas (10 estrellas por cada acierto)
     int recompensa = _score * 10;
-
-    // Sumamos los puntos directamente a la cuenta global del usuario
     PerfilUsuario.estrellasTotales += recompensa;
 
     showDialog(
@@ -65,17 +69,15 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
       builder: (context) => AlertDialog(
         title: const Text("¡Lección Terminada! 👏"),
         content: Text(
-          "Completaste el módulo de Wichí.\n"
-          "Preguntas correctas: $_score / ${wichiQuestions.length}\n"
+          "Completaste: ${widget.nombreModulo}\n"
+          "Preguntas correctas: $_score / ${widget.preguntas.length}\n"
           "¡Ganaste +$recompensa Estrellas! ⭐",
         ),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context); // Cierra el cartel flotante
-              Navigator.pop(
-                context,
-              ); // Regresa automáticamente a la Pantalla de Inicio
+              Navigator.pop(context);
+              Navigator.pop(context);
             },
             child: const Text("Volver al Menú"),
           ),
@@ -86,16 +88,18 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
 
   @override
   Widget build(BuildContext context) {
-    if (wichiQuestions.isEmpty) {
-      return const Scaffold(body: Center(child: Text("Cargando preguntas...")));
+    if (widget.preguntas.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text("No hay preguntas en este módulo.")),
+      );
     }
 
-    final currentQuestion = wichiQuestions[_currentIndex];
-    double progress = (_currentIndex + 1) / wichiQuestions.length;
+    final currentQuestion = widget.preguntas[_currentIndex];
+    double progress = (_currentIndex + 1) / widget.preguntas.length;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Módulo 1: Cuestionario"),
+        title: Text(widget.nombreModulo),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
       ),

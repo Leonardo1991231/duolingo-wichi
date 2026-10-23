@@ -14,7 +14,7 @@ class Question {
   });
 }
 
-// BBDD de preguntas (Variante Dragones)
+// Módulo 1: Saludos Básicos
 List<Question> wichiQuestions = [
   Question(
     instruction: "Selecciona la traducción correcta para:",
@@ -29,19 +29,35 @@ List<Question> wichiQuestions = [
     options: ["Verdadero", "Falso"],
     correctAnswer: "Verdadero",
   ),
+];
+
+// Módulo 2: Animales del Monte (NUEVO)
+List<Question> animalesQuestions = [
   Question(
-    instruction: "Escucha el audio de prueba y selecciona el animal correcto:",
-    questionText: "🔊 Escuchar",
+    instruction: "Selecciona el significado correcto para el animal:",
+    questionText: "Asno",
     audioUrl: "https://soundhelix.com",
     options: ["Zorro", "Burro", "Gato", "Yaguareté"],
     correctAnswer: "Burro",
   ),
 ];
 
-// Clase Global corregida para almacenar el progreso del usuario Leo
+// Estructura para el juego infantil de tarjetas
+class TarjetaJuego {
+  final String palabra;
+  bool estaVolteada;
+  bool estaEmparejada;
+
+  TarjetaJuego({
+    required this.palabra,
+    this.estaVolteada = false,
+    this.estaEmparejada = false,
+  });
+}
+
+// Estado del perfil global de Leo
 class PerfilUsuario {
   static String nombre = "Leo Dragones";
-  static int estrellasTotales =
-      120; // Almacena tus estrellas como un número entero real
+  static int estrellasTotales = 120;
   static int medallasGanadas = 1;
 }
