@@ -5,6 +5,8 @@ import 'package:record/record.dart';
 
 import 'dart:typed_data';
 
+import '../widgets/ilustracion_educativa.dart';
+
 // Estructura para almacenar palabras con soporte de fotos y audios reales
 class PalabraDiccionario {
   final String wichi;
@@ -302,11 +304,25 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
         foregroundColor: Colors.white,
       ),
       body: _vocabularioComunitario.isEmpty
-          ? const Center(
-              child: Text(
-                "El diccionario está listo.\n¡Presioná el botón de abajo para registrar el primer vocabulario!",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-                textAlign: TextAlign.center,
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(28),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const IlustracionEducativa(
+                      tipo: TipoIlustracion.diccionario,
+                      width: 170,
+                      height: 136,
+                    ),
+                    const SizedBox(height: 18),
+                    const Text(
+                      "El diccionario está listo.\n¡Presioná el botón de abajo para registrar el primer vocabulario!",
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             )
           : ListView.builder(

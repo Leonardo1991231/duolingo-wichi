@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../quiz_data.dart';
+import '../widgets/ilustracion_educativa.dart';
 import 'pantalla_diccionario.dart';
 import 'pantalla_ejercicio.dart';
 import 'pantalla_juego_infantil.dart';
@@ -286,7 +287,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Icon(Icons.explore_rounded, size: 58, color: _turquesa),
+                  const IlustracionEducativa(tipo: TipoIlustracion.territorio, width: 88, height: 72),
                 ],
               ),
             ),
@@ -304,6 +305,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
             _buildMision(
               numero: 1,
               titulo: 'Saludos básicos',
+              ilustracion: TipoIlustracion.saludos,
               descripcion: 'Aprendé a saludar y presentarte.',
               icono: Icons.waving_hand_rounded,
               completada: modulo1Completado,
@@ -318,6 +320,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
             _buildMision(
               numero: 2,
               titulo: 'Animales del monte',
+              ilustracion: TipoIlustracion.animales,
               descripcion: 'Descubrí la fauna del Chaco.',
               icono: Icons.pets_rounded,
               completada: modulo2Completado,
@@ -386,6 +389,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
     required int numero,
     required String titulo,
     required String descripcion,
+    required TipoIlustracion ilustracion,
     required IconData icono,
     required bool completada,
     required bool habilitada,
@@ -513,14 +517,15 @@ class _PantallaInicioState extends State<PantallaInicio> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Icon(
-                          completada
-                              ? Icons.check_circle_rounded
-                              : habilitada
-                              ? Icons.play_circle_fill_rounded
-                              : Icons.lock_outline_rounded,
-                          color: colorAcento,
-                          size: 27,
+                        SizedBox(
+                          width: 58, height: 58,
+                          child: Stack(alignment: Alignment.center, children: [
+                            Opacity(opacity: habilitada ? 1 : 0.45, child: IlustracionEducativa(tipo: ilustracion, width: 56, height: 50)),
+                            Positioned(right: 0, bottom: 0, child: DecoratedBox(
+                              decoration: BoxDecoration(color: _panel, shape: BoxShape.circle, border: Border.all(color: colorAcento)),
+                              child: Padding(padding: const EdgeInsets.all(3), child: Icon(completada ? Icons.check_rounded : habilitada ? Icons.play_arrow_rounded : Icons.lock_outline_rounded, color: colorAcento, size: 16)),
+                            )),
+                          ]),
                         ),
                       ],
                     ),

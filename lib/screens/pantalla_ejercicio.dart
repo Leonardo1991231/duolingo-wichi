@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 import '../quiz_data.dart';
+import '../widgets/ilustracion_educativa.dart';
 
 class PantallaEjercicio extends StatefulWidget {
   final List<Question> preguntas;
@@ -159,14 +160,28 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
                     vertical: 40,
                     horizontal: 20,
                   ),
-                  child: Text(
-                    currentQuestion.questionText,
-                    style: const TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
+                  child: Row(
+                    children: [
+                      IlustracionEducativa(
+                        tipo: widget.nombreModulo.toLowerCase().contains('animal')
+                            ? TipoIlustracion.animales
+                            : TipoIlustracion.saludos,
+                        width: 66,
+                        height: 58,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          currentQuestion.questionText,
+                          style: const TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
