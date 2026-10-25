@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../quiz_data.dart';
 import '../widgets/ilustracion_educativa.dart';
@@ -65,6 +66,33 @@ class _PantallaInicioState extends State<PantallaInicio> {
       MaterialPageRoute<void>(builder: (_) => const PantallaPerfil()),
     );
     if (mounted) setState(() {});
+  }
+
+  Future<void> _actualizarAplicacion() async {
+    final url = Uri.parse(
+      'https://wichi-facil.web.app/updates/app-release.apk',
+    );
+    try {
+      final abierto = await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+      if (!abierto && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No se pudo abrir la descarga de la actualización.'),
+          ),
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No se pudo abrir la descarga de la actualización.'),
+          ),
+        );
+      }
+    }
   }
 
   Widget _crearMenu() {
@@ -139,6 +167,12 @@ class _PantallaInicioState extends State<PantallaInicio> {
                 Navigator.pop(context);
                 _abrirJuego();
               },
+            ),
+            _opcionMenu(
+              icono: Icons.system_update_alt_rounded,
+              titulo: 'Actualizar aplicación',
+              subtitulo: 'Descargá la última versión',
+              accion: _actualizarAplicacion,
             ),
             _opcionMenu(
               icono: Icons.account_circle_rounded,
