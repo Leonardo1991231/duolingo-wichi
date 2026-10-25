@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -49,12 +50,11 @@ class _PantallaPerfilState extends State<PantallaPerfil> {
       if (!mounted) return;
       setState(() => _usuario = usuario);
       await _sincronizar(usuario, importarInvitado: true);
-    } catch (_) {
+    } catch (error) {
+      debugPrint('Error al iniciar sesión o sincronizar: $error');
       if (mounted) {
         _mostrarMensaje(
-          _usuario == null
-              ? 'No se pudo iniciar sesión. Revisá que Google esté habilitado en Firebase y que la app esté configurada.'
-              : 'La cuenta está abierta, pero no se pudo sincronizar. Revisá Firestore y volvé a intentar.',
+          'No se pudo completar la acción (' + _codigoError(error) + ').',
         );
       }
     } finally {
@@ -72,10 +72,11 @@ class _PantallaPerfilState extends State<PantallaPerfil> {
         setState(() {});
         _mostrarMensaje('Tu progreso quedó sincronizado con tu cuenta.');
       }
-    } catch (_) {
+    } catch (error) {
+      debugPrint('Error al sincronizar progreso con Firestore: $error');
       if (mounted) {
         _mostrarMensaje(
-          'La cuenta está lista. Para sincronizar, creá Firestore y publicá las reglas de seguridad.',
+          'No se pudo sincronizar el progreso (' + _codigoError(error) + ').',
         );
       }
     }
@@ -100,6 +101,13 @@ class _PantallaPerfilState extends State<PantallaPerfil> {
     } finally {
       if (mounted) setState(() => _ocupado = false);
     }
+  }
+
+  String _codigoError(Object error) {
+    if (error is FirebaseException) {
+      return error.plugin + '/' + error.code;
+    }
+    return error.runtimeType.toString();
   }
 
   void _mostrarMensaje(String mensaje) {
