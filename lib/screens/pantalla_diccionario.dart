@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:record/record.dart';
@@ -41,7 +43,7 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
   Uint8List? _imagenSeleccionadaBytes;
 
   // Lista en memoria donde se irán listando los aportes de los usuarios
-  final List<PalabraDiccionario> _vocabularioComunitario = [];
+  bool _publicando = false;
 
   final TextEditingController _wichiController = TextEditingController();
   final TextEditingController _castellanoController = TextEditingController();
@@ -134,6 +136,54 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
     setState(() {
       _imagenSeleccionadaBytes = bytes;
     });
+  }
+
+  Future<void> _publicarPalabra(BuildContext sheetContext, StateSetter setModalState) async {
+    final wichi = _wichiController.text.trim();
+    final castellano = _castellanoController.text.trim();
+    if (wichi.isEmpty || castellano.isEmpty) {
+      ScaffoldMessenger.of(sheetContext).showSnackBar(
+        const SnackBar(content: Text('Completá la palabra y su traducción.')) ,
+      );
+      return;
+    }
+    if (FirebaseAuth.instance.currentUser == null) {
+      ScaffoldMessenger.of(sheetContext).showSnackBar(
+        const SnackBar(content: Text('Iniciá sesión desde Mi perfil para compartir una palabra.')) ,
+      );
+      return;
+    }
+    setModalState(() => _publicando = true);
+    try {
+      await FirebaseFirestore.instance.collection('diccionario').add(
+        <String, Object>{
+          'wichi': wichi,
+          'castellano': castellano,
+          'variante': 'Dragones',
+          'creadoEn': FieldValue.serverTimestamp(),
+          'verificado': false,
+        },
+      );
+      _wichiController.clear();
+      _castellanoController.clear();
+      _pathAudioGrabado = null;
+      _imagenSeleccionadaBytes = null;
+      if (!mounted || !sheetContext.mounted) return;
+      setModalState(() => _publicando = false);
+      Navigator.pop(sheetContext);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Palabra compartida con la comunidad.')) ,
+      );
+    } catch (_) {
+      if (sheetContext.mounted) {
+        ScaffoldMessenger.of(sheetContext).showSnackBar(
+          const SnackBar(content: Text('No se pudo publicar. Revisá la conexión e intentá de nuevo.')) ,
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _publicando = false);
+      if (sheetContext.mounted) setModalState(() => _publicando = false);
+    }
   }
 
   // VENTANA FLOTANTE: El formulario real para ingresar datos
@@ -236,38 +286,15 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
                         ),
                       ],
                     ),
+                    const Text(
+                      'Las palabras se comparten en línea. Las fotos y grabaciones no se sincronizan todavía.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black54, fontSize: 12),
+                    ),
+                    const SizedBox(height: 10),
                     const SizedBox(height: 25),
                     ElevatedButton(
-                      onPressed: () {
-                        if (_wichiController.text.isNotEmpty &&
-                            _castellanoController.text.isNotEmpty) {
-                          setState(() {
-                            _vocabularioComunitario.add(
-                              PalabraDiccionario(
-                                wichi: _wichiController.text,
-                                castellano: _castellanoController.text,
-                                audioPath: _pathAudioGrabado,
-                                imagenBytes: _imagenSeleccionadaBytes,
-                              ),
-                            );
-                          });
-
-                          _wichiController.clear();
-                          _castellanoController.clear();
-                          _pathAudioGrabado = null;
-                          _imagenSeleccionadaBytes = null;
-
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                "¡Registrado en el mapa lingüístico de Dragones! 📜",
-                              ),
-                              backgroundColor: Colors.teal,
-                            ),
-                          );
-                        }
-                      },
+                      onPressed: _publicando ? null : () => _publicarPalabra(context, setModalState),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(15),
                         backgroundColor: Colors.teal,
@@ -303,8 +330,21 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
       ),
-      body: _vocabularioComunitario.isEmpty
-          ? Center(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('diccionario')
+            .orderBy('creadoEn', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(child: Text('No se pudo cargar el diccionario.')) ;
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator()) ;
+          }
+          final documentos = snapshot.data?.docs ?? const [];
+          if (documentos.isEmpty) {
+            return Center(
               child: Padding(
                 padding: const EdgeInsets.all(28),
                 child: Column(
@@ -317,69 +357,54 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
                     ),
                     const SizedBox(height: 18),
                     const Text(
-                      "El diccionario está listo.\n¡Presioná el botón de abajo para registrar el primer vocabulario!",
+                      'El diccionario comunitario está listo.\n¡Agregá la primera palabra!',
                       style: TextStyle(fontSize: 16, color: Colors.grey),
                       textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
-            )
-          : ListView.builder(
-              itemCount: _vocabularioComunitario.length,
-              itemBuilder: (context, index) {
-                final item = _vocabularioComunitario[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 8,
+            );
+          }
+          return ListView.builder(
+            itemCount: documentos.length,
+            itemBuilder: (context, index) {
+              final datos = documentos[index].data();
+              final palabra = PalabraDiccionario(
+                wichi: datos['wichi'] as String? ?? '',
+                castellano: datos['castellano'] as String? ?? '',
+              );
+              final verificada = datos['verificado'] == true;
+              return Card(
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                elevation: 3,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                child: ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: Color(0xFFE0F2F1),
+                    child: Icon(Icons.menu_book, color: Colors.teal),
                   ),
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                  title: Text(
+                    palabra.wichi,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.teal),
                   ),
-                  child: ListTile(
-                    leading: item.imagenBytes != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.memory(
-                              item.imagenBytes!,
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : const CircleAvatar(
-                            backgroundColor: Color(0xFFE0F2F1),
-                            child: Icon(Icons.menu_book, color: Colors.teal),
-                          ),
-                    title: Text(
-                      item.wichi,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.teal,
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(palabra.castellano),
+                      const SizedBox(height: 4),
+                      Text(
+                        verificada ? 'Verificada' : 'Aporte comunitario · no verificado',
+                        style: TextStyle(color: verificada ? Colors.green : Colors.black54, fontSize: 12),
                       ),
-                    ),
-                    subtitle: Text(
-                      item.castellano,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(
-                        Icons.volume_up,
-                        color: Colors.teal,
-                        size: 28,
-                      ),
-                      onPressed: () => _playSound(item),
-                    ),
+                    ],
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _abrirFormularioAgregar,
         backgroundColor: Colors.teal,
