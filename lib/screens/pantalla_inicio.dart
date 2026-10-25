@@ -70,7 +70,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
 
   Future<void> _actualizarAplicacion() async {
     final url = Uri.parse(
-      'https://wichi-facil.web.app/updates/app-release.apk',
+      'https://github.com/Leonardo1991231/duolingo-wichi/releases/download/android-latest/app-release.apk',
     );
     try {
       final abierto = await launchUrl(

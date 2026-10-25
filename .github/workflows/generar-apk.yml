@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-apk:
@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Descargar código del proyecto
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Configurar Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: zulu
           java-version: '17'
@@ -43,12 +43,26 @@ jobs:
         run: flutter pub get
 
       - name: Compilar APK de lanzamiento
-        run: flutter build apk --release
+        run: flutter build apk --release --build-number=$((GITHUB_RUN_NUMBER + 100))
 
-      - name: Guardar APK para descargar
+      - name: Guardar APK como artefacto temporal
         uses: actions/upload-artifact@v4
         with:
           name: wichi-facil-android
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publicar o actualizar la descarga permanente
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APK_PATH: build/app/outputs/flutter-apk/app-release.apk
+          RELEASE_TITLE: Wichí Fácil para Android
+        run: |
+          RELEASE_NOTES="APK Android de Wichí Fácil. Versión de compilación ${GITHUB_RUN_NUMBER}, generada automáticamente desde main."
+          if gh release view android-latest >/dev/null 2>&1; then
+            gh release upload android-latest "$APK_PATH" --clobber
+            gh release edit android-latest --title "$RELEASE_TITLE" --notes "$RELEASE_NOTES" --latest
+          else
+            gh release create android-latest "$APK_PATH" --title "$RELEASE_TITLE" --notes "$RELEASE_NOTES" --latest
+          fi
