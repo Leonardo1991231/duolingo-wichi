@@ -48042,7 +48042,7 @@ return A.o(null,r)}})
 return A.p($async$ud,r)},
 yF(){var s=0,r=A.q(t.H),q=1,p=[],o=this,n,m,l,k,j
 var $async$yF=A.r(function(a,b){if(a===1){p.push(b)
-s=q}for(;;)switch(s){case 0:k=A.i5("https://wichi-facil.web.app/updates/app-release.apk",0,null)
+s=q}for(;;)switch(s){case 0:k=A.i5("https://github.com/Leonardo1991231/duolingo-wichi/releases/download/android-latest/app-release.apk",0,null)
 q=3
 s=6
 return A.l(A.aFM(k,B.Jh),$async$yF)
