@@ -1,1 +1,41 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"wichi-facil","appId":"1:1891824905:android:b25e7edcad79d0cdc80fd8","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"wichi-facil","configurations":{"android":"1:1891824905:android:b25e7edcad79d0cdc80fd8","ios":"1:1891824905:ios:f025d7c319ccebecc80fd8","macos":"1:1891824905:ios:f025d7c319ccebecc80fd8","web":"1:1891824905:web:c8826255fa394b74c80fd8"}}}}},"firestore":{"rules":"firestore.rules"}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "wichi-facil",
+          "appId": "1:1891824905:android:b25e7edcad79d0cdc80fd8",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "wichi-facil",
+          "configurations": {
+            "android": "1:1891824905:android:b25e7edcad79d0cdc80fd8",
+            "ios": "1:1891824905:ios:f025d7c319ccebecc80fd8",
+            "macos": "1:1891824905:ios:f025d7c319ccebecc80fd8",
+            "web": "1:1891824905:web:c8826255fa394b74c80fd8"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
