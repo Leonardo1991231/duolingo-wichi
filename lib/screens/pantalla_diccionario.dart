@@ -77,54 +77,61 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
   }
 
   // GRABADOR REAL: Se conecta con el micrófono del navegador o celular
-  void _toggleRecording() async {
+  Future<void> _toggleRecording() async {
     if (_isRecording) {
       final path = await _audioRecorder.stop();
+      if (!mounted) return;
+
       setState(() {
         _isRecording = false;
         _pathAudioGrabado = path;
       });
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("¡Grabación finalizada con éxito! 🎙️"),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
-    } else {
-      if (await _audioRecorder.hasPermission()) {
-        await _audioRecorder.start(
-          const RecordConfig(encoder: AudioEncoder.aacLc),
-          path: '', // En Chrome se genera un archivo temporal blob automáticamente
-        );
-        setState(() {
-          _isRecording = true;
-          _pathAudioGrabado = null;
-        });
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Permiso de micrófono denegado")),
-          );
-        }
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("¡Grabación finalizada con éxito! 🎙️"),
+          backgroundColor: Colors.green,
+        ),
+      );
+      return;
     }
+
+    final tienePermiso = await _audioRecorder.hasPermission();
+    if (!mounted) return;
+
+    if (!tienePermiso) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Permiso de micrófono denegado")),
+      );
+      return;
+    }
+
+    await _audioRecorder.start(
+      const RecordConfig(encoder: AudioEncoder.aacLc),
+      path: '',
+    );
+    if (!mounted) return;
+
+    setState(() {
+      _isRecording = true;
+      _pathAudioGrabado = null;
+    });
   }
 
   // SELECTOR REAL: Abre la galería de imágenes del dispositivo
-  void _seleccionarImagen() async {
+  Future<void> _seleccionarImagen() async {
     final XFile? imagen = await _imagePicker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 80,
     );
 
-    if (imagen != null) {
-      final bytes = await imagen.readAsBytes();
-      setState(() {
-        _imagenSeleccionadaBytes = bytes;
-      });
-    }
+    if (imagen == null || !mounted) return;
+
+    final bytes = await imagen.readAsBytes();
+    if (!mounted) return;
+
+    setState(() {
+      _imagenSeleccionadaBytes = bytes;
+    });
   }
 
   // VENTANA FLOTANTE: El formulario real para ingresar datos
@@ -181,8 +188,8 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () async {
-                              _toggleRecording();
-                              setModalState(() {});
+                              await _toggleRecording();
+                              if (context.mounted) setModalState(() {});
                             },
                             icon: Icon(_isRecording ? Icons.stop : Icons.mic),
                             label: Text(
@@ -202,8 +209,8 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () async {
-                              _seleccionarImagen();
-                              setModalState(() {});
+                              await _seleccionarImagen();
+                              if (context.mounted) setModalState(() {});
                             },
                             icon: Icon(
                               _imagenSeleccionadaBytes != null

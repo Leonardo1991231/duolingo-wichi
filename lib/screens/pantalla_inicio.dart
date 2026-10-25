@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../quiz_data.dart'; // <--- ¡Asegúrate de que tenga los dos puntos (../) antes de quiz_data.dart!
-import 'pantalla_ejercicio.dart';
-import 'pantalla_perfil.dart';
+import '../quiz_data.dart';
 import 'pantalla_diccionario.dart';
+import 'pantalla_ejercicio.dart';
 import 'pantalla_juego_infantil.dart';
+import 'pantalla_perfil.dart';
 
 class PantallaInicio extends StatefulWidget {
   const PantallaInicio({super.key});
@@ -14,234 +14,530 @@ class PantallaInicio extends StatefulWidget {
 }
 
 class _PantallaInicioState extends State<PantallaInicio> {
-  @override
-  Widget build(BuildContext context) {
-    // Sistema de Desbloqueo Automático (Basado en las estrellas de quiz_data)
-    bool modulo2Habilitado = PerfilUsuario.estrellasTotales >= 140;
-    bool modulo3Habilitado = PerfilUsuario.estrellasTotales >= 170;
+  static const Color _fondo = Color(0xFF071B30);
+  static const Color _panel = Color(0xFF102B45);
+  static const Color _turquesa = Color(0xFF29D6C1);
+  static const Color _textoSuave = Color(0xFFB8CAD8);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          "Wichí Lhamtés",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-        backgroundColor: Colors.teal,
-        elevation: 0,
-        actions: [
-          Row(
-            children: [
-              const Icon(Icons.star, color: Colors.amber, size: 24),
-              const SizedBox(width: 4),
-              Text(
-                "${PerfilUsuario.estrellasTotales}",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 10),
-          IconButton(
-            icon: const Icon(Icons.menu_book, color: Colors.white, size: 26),
-            tooltip: "Diccionario Comunitario",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PantallaDiccionario(),
-                ),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.account_circle,
-              color: Colors.white,
-              size: 26,
-            ),
-            tooltip: "Ver Mi Perfil",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PantallaPerfil()),
-              ).then((_) {
-                setState(() {});
-              });
-            },
-          ),
-          const SizedBox(width: 10),
-        ],
+  Future<void> _abrirLeccion({
+    required List<Question> preguntas,
+    required String nombreModulo,
+  }) async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) =>
+            PantallaEjercicio(preguntas: preguntas, nombreModulo: nombreModulo),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 10),
-              const Text(
-                "¿Qué quieres practicar hoy?",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 25),
+    );
+    if (mounted) setState(() {});
+  }
 
-              // Módulo 1: Saludos
-              _buildModuloBoton(
-                context: context,
-                titulo: "Módulo 1: Saludos Básicos",
-                descripcion: "Aprende a decir Hola, Adiós y presentarte.",
-                color: Colors.teal,
-                icono: Icons.chat_bubble,
-                habilitado: true,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PantallaEjercicio(
-                      preguntas: wichiQuestions,
-                      nombreModulo: "Módulo 1: Saludos",
+  Future<void> _abrirJuego() async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => const PantallaJuegoInfantil(),
+      ),
+    );
+    if (mounted) setState(() {});
+  }
+
+  void _avisarBloqueo() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Ganá más estrellas en la misión anterior para avanzar.'),
+      ),
+    );
+  }
+
+  Future<void> _abrirDiccionario() async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(builder: (_) => const PantallaDiccionario()),
+    );
+  }
+
+  Future<void> _abrirPerfil() async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(builder: (_) => const PantallaPerfil()),
+    );
+    if (mounted) setState(() {});
+  }
+
+  Widget _crearMenu() {
+    return Drawer(
+      backgroundColor: _fondo,
+      child: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 185,
+              width: double.infinity,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Image.asset(
+                    'assets/images/caratula.png',
+                    fit: BoxFit.contain,
+                  ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.transparent, _fondo.withOpacity(0.96)],
+                      ),
                     ),
                   ),
-                ),
-              ),
-
-              // Módulo 2: Animales (Dinámico)
-              _buildModuloBoton(
-                context: context,
-                titulo: "Módulo 2: Animales del Monte",
-                descripcion: "Vocabulario sobre la fauna del Chaco.",
-                color: Colors.orange,
-                icono: Icons.pets,
-                habilitado: modulo2Habilitado,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PantallaEjercicio(
-                      preguntas: animalesQuestions,
-                      nombreModulo: "Módulo 2: Animales del Monte",
+                  const Positioned(
+                    left: 20,
+                    bottom: 14,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Wichí Fácil',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Aprendé, compartí y avanzá',
+                          style: TextStyle(color: _textoSuave),
+                        ),
+                      ],
                     ),
                   ),
-                ),
+                ],
               ),
-
-              // Sección Especial: Rincón de Juegos Infantiles
-              const SizedBox(height: 20),
-              const Text(
-                "Rincón Infantil",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.orange,
-                ),
+            ),
+            const SizedBox(height: 8),
+            _opcionMenu(
+              icono: Icons.map_rounded,
+              titulo: 'Mapa de misiones',
+              subtitulo: 'Seguí aprendiendo paso a paso',
+              accion: () => Navigator.pop(context),
+            ),
+            _opcionMenu(
+              icono: Icons.menu_book_rounded,
+              titulo: 'Diccionario comunitario',
+              subtitulo: 'Consultá y agregá palabras, fotos o audios',
+              accion: () {
+                Navigator.pop(context);
+                _abrirDiccionario();
+              },
+            ),
+            _opcionMenu(
+              icono: Icons.extension_rounded,
+              titulo: 'Rincón infantil',
+              subtitulo: 'Jugá a encontrar las parejas',
+              accion: () {
+                Navigator.pop(context);
+                _abrirJuego();
+              },
+            ),
+            _opcionMenu(
+              icono: Icons.account_circle_rounded,
+              titulo: 'Mi perfil y progreso',
+              subtitulo: 'Estrellas, resultados y logros',
+              accion: () {
+                Navigator.pop(context);
+                _abrirPerfil();
+              },
+            ),
+            const Spacer(),
+            const Divider(color: Colors.white12, indent: 18, endIndent: 18),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 8, 20, 18),
+              child: Text(
+                'Gratis para aprender y compartir',
+                style: TextStyle(color: _textoSuave, fontSize: 12),
               ),
-              const Divider(),
-
-              _buildModuloBoton(
-                context: context,
-                titulo: "Juego de Memoria",
-                descripcion: "¡Encuentra las palabras iguales y gana!",
-                color: Colors.deepPurple,
-                icono: Icons.extension,
-                habilitado: true,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PantallaJuegoInfantil(),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildModuloBoton({
-    required BuildContext context,
-    required String titulo,
-    required String descripcion,
-    required Color color,
+  Widget _opcionMenu({
     required IconData icono,
-    required bool habilitado,
-    required VoidCallback onTap,
+    required String titulo,
+    required String subtitulo,
+    required VoidCallback accion,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: GestureDetector(
-        onTap: () {
-          if (habilitado) {
-            onTap();
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(
-                  "¡Consigue más estrellas en el módulo anterior para desbloquear! 🔒",
-                ),
-              ),
-            );
-          }
-        },
-        child: Card(
-          elevation: habilitado ? 4 : 1,
-          color: habilitado ? Colors.white : Colors.grey[200],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-            side: BorderSide(color: habilitado ? color : Colors.grey, width: 2),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
+    return ListTile(
+      leading: Icon(icono, color: _turquesa),
+      title: Text(titulo, style: const TextStyle(fontWeight: FontWeight.w600)),
+      subtitle: Text(
+        subtitulo,
+        style: const TextStyle(color: _textoSuave, fontSize: 12),
+      ),
+      onTap: accion,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final estrellas = PerfilUsuario.estrellasTotales;
+    final modulo1Completado = PerfilUsuario.leccionCompletada(
+      'Módulo 1: Saludos',
+    );
+    final modulo2Completado = PerfilUsuario.leccionCompletada(
+      'Módulo 2: Animales del Monte',
+    );
+    final modulo2Habilitado = estrellas >= 140;
+    final misionesCompletadas = [
+      modulo1Completado,
+      modulo2Completado,
+    ].where((completa) => completa).length;
+
+    return Scaffold(
+      backgroundColor: _fondo,
+      drawer: _crearMenu(),
+      appBar: AppBar(
+        backgroundColor: _fondo,
+        foregroundColor: Colors.white,
+        title: const Text(
+          'Wichí Fácil',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 9),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: _panel,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: Colors.white12),
+            ),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundColor: habilitado
-                      ? color.withOpacity(0.2)
-                      : Colors.grey[300],
-                  radius: 28,
-                  child: Icon(
-                    icono,
-                    color: habilitado ? color : Colors.grey,
-                    size: 28,
-                  ),
+                const Icon(
+                  Icons.star_rounded,
+                  color: Color(0xFFFFD166),
+                  size: 21,
                 ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        titulo,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: habilitado ? Colors.black87 : Colors.grey,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        descripcion,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
+                const SizedBox(width: 5),
+                Text(
+                  '$estrellas',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                if (!habilitado) const Icon(Icons.lock, color: Colors.grey),
               ],
             ),
           ),
+          IconButton(
+            tooltip: 'Mi perfil',
+            icon: const Icon(Icons.account_circle_rounded),
+            onPressed: _abrirPerfil,
+          ),
+          const SizedBox(width: 4),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(18, 8, 18, 28),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(22),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF123D57), Color(0xFF0D675F)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: _turquesa.withOpacity(0.25)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '¡Vamos a aprender!',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Seguí el camino y descubrí nuevas palabras en Wichí.',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.82),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          '$misionesCompletadas de 2 misiones completadas',
+                          style: const TextStyle(
+                            color: Color(0xFF9CF4E9),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Icon(Icons.explore_rounded, size: 58, color: _turquesa),
+                ],
+              ),
+            ),
+            const SizedBox(height: 26),
+            const Text(
+              'Mapa de misiones',
+              style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Completá una misión para avanzar por el camino.',
+              style: TextStyle(color: _textoSuave),
+            ),
+            const SizedBox(height: 18),
+            _buildMision(
+              numero: 1,
+              titulo: 'Saludos básicos',
+              descripcion: 'Aprendé a saludar y presentarte.',
+              icono: Icons.waving_hand_rounded,
+              completada: modulo1Completado,
+              habilitada: true,
+              mejorPuntaje: PerfilUsuario.mejorPuntaje('Módulo 1: Saludos'),
+              ultima: false,
+              alTocar: () => _abrirLeccion(
+                preguntas: wichiQuestions,
+                nombreModulo: 'Módulo 1: Saludos',
+              ),
+            ),
+            _buildMision(
+              numero: 2,
+              titulo: 'Animales del monte',
+              descripcion: 'Descubrí la fauna del Chaco.',
+              icono: Icons.pets_rounded,
+              completada: modulo2Completado,
+              habilitada: modulo2Habilitado,
+              mejorPuntaje: PerfilUsuario.mejorPuntaje(
+                'Módulo 2: Animales del Monte',
+              ),
+              ultima: true,
+              alTocar: () {
+                if (modulo2Habilitado) {
+                  _abrirLeccion(
+                    preguntas: animalesQuestions,
+                    nombreModulo: 'Módulo 2: Animales del Monte',
+                  );
+                } else {
+                  _avisarBloqueo();
+                }
+              },
+            ),
+            const SizedBox(height: 18),
+            Material(
+              color: _panel,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(color: Colors.white10),
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 8,
+                ),
+                leading: Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF7561C9).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Icon(
+                    Icons.extension_rounded,
+                    color: Color(0xFFB9A9FF),
+                  ),
+                ),
+                title: const Text(
+                  'Rincón infantil',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: const Text(
+                  'Juego de memoria con palabras',
+                  style: TextStyle(color: _textoSuave),
+                ),
+                trailing: const Icon(
+                  Icons.chevron_right_rounded,
+                  color: _turquesa,
+                ),
+                onTap: _abrirJuego,
+              ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _buildMision({
+    required int numero,
+    required String titulo,
+    required String descripcion,
+    required IconData icono,
+    required bool completada,
+    required bool habilitada,
+    required int mejorPuntaje,
+    required bool ultima,
+    required VoidCallback alTocar,
+  }) {
+    final colorAcento = completada
+        ? _turquesa
+        : habilitada
+        ? const Color(0xFF59C9FF)
+        : const Color(0xFF708397);
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: 54,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: habilitada ? colorAcento.withOpacity(0.16) : _panel,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: colorAcento, width: 2),
+                  ),
+                  child: Icon(
+                    completada
+                        ? Icons.check_rounded
+                        : habilitada
+                        ? icono
+                        : Icons.lock_rounded,
+                    color: colorAcento,
+                    size: 22,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: alTocar,
+                  borderRadius: BorderRadius.circular(19),
+                  child: Ink(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: _panel,
+                      borderRadius: BorderRadius.circular(19),
+                      border: Border.all(
+                        color: habilitada
+                            ? colorAcento.withOpacity(0.55)
+                            : Colors.white12,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Misión $numero',
+                                style: TextStyle(
+                                  color: colorAcento,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 0.7,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                titulo,
+                                style: TextStyle(
+                                  color: habilitada
+                                      ? Colors.white
+                                      : _textoSuave,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                descripcion,
+                                style: const TextStyle(
+                                  color: _textoSuave,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              if (completada) ...[
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.star_rounded,
+                                      color: Color(0xFFFFD166),
+                                      size: 17,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'Mejor resultado: $mejorPuntaje',
+                                      style: const TextStyle(
+                                        color: Color(0xFFFFD166),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ] else if (!habilitada) ...[
+                                const SizedBox(height: 8),
+                                const Text(
+                                  'Se desbloquea con 140 estrellas',
+                                  style: TextStyle(
+                                    color: _textoSuave,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Icon(
+                          completada
+                              ? Icons.check_circle_rounded
+                              : habilitada
+                              ? Icons.play_circle_fill_rounded
+                              : Icons.lock_outline_rounded,
+                          color: colorAcento,
+                          size: 27,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        if (!ultima)
+          Container(
+            margin: const EdgeInsets.only(left: 25),
+            width: 3,
+            height: 22,
+            color: _turquesa.withOpacity(0.55),
+          ),
+      ],
     );
   }
 }

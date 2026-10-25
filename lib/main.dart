@@ -1,8 +1,27 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/pantalla_bienvenida.dart'; // Ahora importamos la bienvenida
+import 'firebase_options.dart';
+import 'quiz_data.dart';
+import 'screens/pantalla_bienvenida.dart';
 
-void main() => runApp(const WichiFacilApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  final usuario = FirebaseAuth.instance.currentUser;
+  await PerfilUsuario.cargarProgreso(userId: usuario?.uid);
+  if (usuario != null) {
+    try {
+      await PerfilUsuario.sincronizarCuenta(usuario);
+    } catch (error) {
+      debugPrint('No se pudo sincronizar el progreso con Firebase: $error');
+    }
+  }
+  runApp(const WichiFacilApp());
+}
 
 class WichiFacilApp extends StatelessWidget {
   const WichiFacilApp({super.key});
@@ -13,10 +32,14 @@ class WichiFacilApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Wichí Fácil',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF20C9B5),
+          brightness: Brightness.dark,
+        ),
+        scaffoldBackgroundColor: const Color(0xFF071B30),
         useMaterial3: true,
       ),
-      home: const PantallaBienvenida(), // <--- Arranca con la carátula institucional
+      home: const PantallaBienvenida(),
     );
   }
 }

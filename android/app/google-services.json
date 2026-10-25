@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1891824905",
+    "project_id": "wichi-facil",
+    "storage_bucket": "wichi-facil.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1891824905:android:b25e7edcad79d0cdc80fd8",
+        "android_client_info": {
+          "package_name": "com.example.duolingo_wichi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1891824905-ch05fo5p3kkbvs2vi6evpm586osrk35d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.duolingo_wichi",
+            "certificate_hash": "18a9d9dc9bbe21ad2f38de0f21e09a3ca2168720"
+          }
+        },
+        {
+          "client_id": "1891824905-pa31s32a9g4edqubhm06sglsh06q9vt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkl-S4DasGPfhOyvHf7-Jp0W7PQtcHsIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1891824905-pa31s32a9g4edqubhm06sglsh06q9vt6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1891824905-k1a1bo6t2erk6cadjsmgkreecisp3cdr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.duolingoWichi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

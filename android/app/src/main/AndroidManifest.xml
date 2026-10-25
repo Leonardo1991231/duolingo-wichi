@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="duolingo_wichi"
+        android:label="Wichí Lhamtés"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

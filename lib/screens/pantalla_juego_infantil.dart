@@ -81,11 +81,15 @@ class _PantallaJuegoInfantilState extends State<PantallaJuegoInfantil> {
     }
   }
 
-  void _finalizarJuego() {
-    PerfilUsuario.estrellasTotales +=
-        30; // Otorga 30 estrellas de premio para los chicos
+  Future<void> _finalizarJuego() async {
+    await PerfilUsuario.registrarResultado(
+      nombreModulo: 'Juego de memoria',
+      estrellasGanadas: 30,
+      respuestasCorrectas: _paresEncontrados,
+    );
 
-    showDialog(
+    if (!mounted) return;
+    await showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
@@ -111,7 +115,7 @@ class _PantallaJuegoInfantilState extends State<PantallaJuegoInfantil> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Juego de Parejas para Niños"),
-        backgroundColor: Colors.teal,
+        backgroundColor: const Color(0xFF0C2A43),
         foregroundColor: Colors.white,
       ),
       body: Padding(

@@ -20,6 +20,7 @@ class PantallaEjercicio extends StatefulWidget {
 class _PantallaEjercicioState extends State<PantallaEjercicio> {
   int _currentIndex = 0;
   int _score = 0;
+  bool _guardandoResultado = false;
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   void _playSound(String url) async {
@@ -36,8 +37,10 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
     }
   }
 
-  void _checkAnswer(String selectedAnswer) {
-    bool isCorrect =
+  Future<void> _checkAnswer(String selectedAnswer) async {
+    if (_guardandoResultado) return;
+
+    final isCorrect =
         selectedAnswer == widget.preguntas[_currentIndex].correctAnswer;
 
     if (isCorrect) _score++;
@@ -50,28 +53,40 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
       ),
     );
 
-    setState(() {
-      if (_currentIndex < widget.preguntas.length - 1) {
-        _currentIndex++;
-      } else {
-        _showFinalDialog();
-      }
-    });
+    if (_currentIndex < widget.preguntas.length - 1) {
+      setState(() => _currentIndex++);
+    } else {
+      _guardandoResultado = true;
+      await _showFinalDialog();
+    }
   }
 
-  void _showFinalDialog() {
-    int recompensa = _score * 10;
-    PerfilUsuario.estrellasTotales += recompensa;
+  Future<void> _showFinalDialog() async {
+    final recompensa = _score * 10;
+    await PerfilUsuario.registrarResultado(
+      nombreModulo: widget.nombreModulo,
+      estrellasGanadas: recompensa,
+      respuestasCorrectas: _score,
+    );
 
-    showDialog(
+    if (!mounted) return;
+    await showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: const Text("¡Lección Terminada! 👏"),
         content: Text(
-          "Completaste: ${widget.nombreModulo}\n"
-          "Preguntas correctas: $_score / ${widget.preguntas.length}\n"
-          "¡Ganaste +$recompensa Estrellas! ⭐",
+          'Completaste: ' +
+              widget.nombreModulo +
+              '\n' +
+              'Preguntas correctas: ' +
+              _score.toString() +
+              ' / ' +
+              widget.preguntas.length.toString() +
+              '\n' +
+              '¡Ganaste +' +
+              recompensa.toString() +
+              ' Estrellas! ⭐',
         ),
         actions: [
           TextButton(
@@ -87,6 +102,12 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
   }
 
   @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.preguntas.isEmpty) {
       return const Scaffold(
@@ -95,12 +116,12 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
     }
 
     final currentQuestion = widget.preguntas[_currentIndex];
-    double progress = (_currentIndex + 1) / widget.preguntas.length;
+    final progress = (_currentIndex + 1) / widget.preguntas.length;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.nombreModulo),
-        backgroundColor: Colors.teal,
+        backgroundColor: const Color(0xFF0C2A43),
         foregroundColor: Colors.white,
       ),
       body: Padding(
@@ -110,8 +131,8 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
           children: [
             LinearProgressIndicator(
               value: progress,
-              backgroundColor: Colors.grey[300],
-              color: Colors.teal,
+              backgroundColor: Colors.white12,
+              color: const Color(0xFF29D6C1),
               minHeight: 10,
             ),
             const SizedBox(height: 30),
@@ -120,7 +141,7 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
-                color: Colors.grey,
+                color: Colors.white70,
               ),
               textAlign: TextAlign.center,
             ),
@@ -129,7 +150,7 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
               onTap: () => _playSound(currentQuestion.audioUrl),
               child: Card(
                 elevation: 4,
-                color: Colors.teal,
+                color: const Color(0xFF0D766F),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -159,9 +180,12 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(18),
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.teal,
-                        side: const BorderSide(color: Colors.teal, width: 2),
+                        backgroundColor: const Color(0xFF102B45),
+                        foregroundColor: const Color(0xFF48E0CE),
+                        side: const BorderSide(
+                          color: Color(0xFF29D6C1),
+                          width: 1.5,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
