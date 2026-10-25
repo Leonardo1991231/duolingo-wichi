@@ -48,7 +48,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
   void _avisarBloqueo() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Ganá más estrellas en la misión anterior para avanzar.'),
+        content: Text('Completá la misión anterior para seguir por el camino.'),
       ),
     );
   }
@@ -224,7 +224,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
     final modulo2Completado = PerfilUsuario.leccionCompletada(
       'Módulo 2: Animales del Monte',
     );
-    final modulo2Habilitado = estrellas >= 140;
+    final modulo2Habilitado = modulo1Completado;
     final misionesCompletadas = [
       modulo1Completado,
       modulo2Completado,
@@ -316,6 +316,26 @@ class _PantallaInicioState extends State<PantallaInicio> {
                             color: Color(0xFF9CF4E9),
                             fontWeight: FontWeight.w600,
                           ),
+                        ),
+                        const SizedBox(height: 9),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.local_fire_department_rounded,
+                              color: Color(0xFFFFA45B),
+                              size: 19,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              PerfilUsuario.rachaVigente == 0
+                                  ? 'Empezá tu racha hoy'
+                                  : '${PerfilUsuario.rachaVigente} días seguidos',
+                              style: const TextStyle(
+                                color: Color(0xFFFFC17E),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -540,7 +560,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
                               ] else if (!habilitada) ...[
                                 const SizedBox(height: 8),
                                 const Text(
-                                  'Se desbloquea con 140 estrellas',
+                                  'Completá la misión anterior para desbloquearla',
                                   style: TextStyle(
                                     color: _textoSuave,
                                     fontSize: 12,
