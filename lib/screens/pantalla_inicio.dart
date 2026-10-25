@@ -317,6 +317,14 @@ class _PantallaInicioState extends State<PantallaInicio> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
+                        const SizedBox(height: 5),
+                        Text(
+                          'Tu meta: \${PerfilUsuario.metaSemanal} días por semana',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.75),
+                            fontSize: 13,
+                          ),
+                        ),
                         const SizedBox(height: 9),
                         Row(
                           children: [

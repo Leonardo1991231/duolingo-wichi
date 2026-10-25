@@ -83,6 +83,8 @@ class PerfilUsuario {
   static const String _claveMedallas = 'wichi.medallas.v1';
   static const String _claveRacha = 'wichi.racha.v1';
   static const String _claveUltimoDia = 'wichi.ultimo_dia.v1';
+  static const String _claveMotivo = 'wichi.motivo.v1';
+  static const String _claveMetaSemanal = 'wichi.meta_semanal.v1';
   static String? _userId;
 
   static String nombre = 'Aprendiz';
@@ -90,6 +92,8 @@ class PerfilUsuario {
   static int medallasGanadas = 0;
   static int rachaActual = 0;
   static String? ultimoDiaActividad;
+  static String? motivoAprendizaje;
+  static int metaSemanal = 5;
   static Set<String> leccionesCompletadas = <String>{};
   static Map<String, int> mejoresPuntajes = <String, int>{};
 
@@ -122,6 +126,8 @@ class PerfilUsuario {
     medallasGanadas = preferencias.getInt(_clave(_claveMedallas)) ?? 0;
     rachaActual = preferencias.getInt(_clave(_claveRacha)) ?? 0;
     ultimoDiaActividad = preferencias.getString(_clave(_claveUltimoDia));
+    motivoAprendizaje = preferencias.getString(_clave(_claveMotivo));
+    metaSemanal = preferencias.getInt(_clave(_claveMetaSemanal)) ?? 5;
     mejoresPuntajes = <String, int>{};
     final puntajesGuardados =
         preferencias.getString(_clave(_claveMejoresPuntajes));
@@ -167,6 +173,12 @@ class PerfilUsuario {
     final ultimoDiaInvitado = importarInvitado
         ? (_userId == null ? ultimoDiaActividad : preferencias.getString(_claveUltimoDia))
         : null;
+    final motivoInvitado = importarInvitado
+        ? (_userId == null ? motivoAprendizaje : preferencias.getString(_claveMotivo))
+        : null;
+    final metaInvitada = importarInvitado
+        ? (_userId == null ? metaSemanal : preferencias.getInt(_claveMetaSemanal) ?? 5)
+        : 5;
     final leccionesInvitado = importarInvitado
         ? (_userId == null
             ? Set<String>.from(leccionesCompletadas)
@@ -202,6 +214,10 @@ class PerfilUsuario {
 
     estrellasTotales = _maximo(estrellasTotales, estrellasInvitado);
     medallasGanadas = _maximo(medallasGanadas, medallasInvitado);
+    if (motivoAprendizaje == null && motivoInvitado != null) {
+      motivoAprendizaje = motivoInvitado;
+      metaSemanal = metaInvitada;
+    }
     if (ultimoDiaInvitado != null &&
         (ultimoDiaActividad == null ||
             ultimoDiaInvitado.compareTo(ultimoDiaActividad!) > 0)) {
@@ -241,6 +257,14 @@ class PerfilUsuario {
       if (leccionesRemotas is List) {
         leccionesCompletadas.addAll(leccionesRemotas.whereType<String>());
       }
+      final motivoRemoto = datos['motivoAprendizaje'];
+      if (motivoRemoto is String && motivoRemoto.isNotEmpty) {
+        motivoAprendizaje = motivoRemoto;
+      }
+      final metaRemota = datos['metaSemanal'];
+      if (metaRemota is num && metaRemota.toInt() >= 3 && metaRemota.toInt() <= 7) {
+        metaSemanal = metaRemota.toInt();
+      }
       final puntajesRemotos = datos['mejoresPuntajes'];
       if (puntajesRemotos is Map) {
         for (final entrada in puntajesRemotos.entries) {
@@ -269,6 +293,10 @@ class PerfilUsuario {
     await preferencias.setInt(_clave(_claveEstrellas), estrellasTotales);
     await preferencias.setInt(_clave(_claveMedallas), medallasGanadas);
     await preferencias.setInt(_clave(_claveRacha), rachaActual);
+    await preferencias.setInt(_clave(_claveMetaSemanal), metaSemanal);
+    if (motivoAprendizaje != null) {
+      await preferencias.setString(_clave(_claveMotivo), motivoAprendizaje!);
+    }
     if (ultimoDiaActividad != null) {
       await preferencias.setString(_clave(_claveUltimoDia), ultimoDiaActividad!);
     }
@@ -290,6 +318,8 @@ class PerfilUsuario {
       'estrellas': estrellasTotales,
       'medallas': medallasGanadas,
       'rachaActual': rachaActual,
+      'metaSemanal': metaSemanal,
+      if (motivoAprendizaje != null) 'motivoAprendizaje': motivoAprendizaje!,
       if (ultimoDiaActividad != null)
         'ultimoDiaActividad': ultimoDiaActividad!,
       'leccionesCompletadas': leccionesCompletadas.toList(),
@@ -312,6 +342,32 @@ class PerfilUsuario {
     _userId = null;
     nombre = 'Aprendiz';
     await _cargarDesdePreferencias();
+  }
+
+  static bool get preparacionCompleta => motivoAprendizaje != null;
+
+  static Future<void> guardarPreparacion({
+    required String motivo,
+    required int diasMeta,
+  }) async {
+    motivoAprendizaje = motivo;
+    metaSemanal = diasMeta;
+    await _guardarLocal();
+    final usuario = FirebaseAuth.instance.currentUser;
+    if (usuario != null && _userId == usuario.uid) {
+      try {
+        await FirebaseFirestore.instance.collection('usuarios').doc(usuario.uid).set(
+          <String, Object>{
+            'motivoAprendizaje': motivo,
+            'metaSemanal': diasMeta,
+            'actualizadoEn': FieldValue.serverTimestamp(),
+          },
+          SetOptions(merge: true),
+        );
+      } catch (_) {
+        // La elección queda guardada localmente y se sincronizará luego.
+      }
+    }
   }
 
   static Future<void> registrarResultado({

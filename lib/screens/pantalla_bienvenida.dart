@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../quiz_data.dart';
 import 'pantalla_inicio.dart';
+import 'pantalla_preparacion.dart';
 
 class PantallaBienvenida extends StatelessWidget {
   const PantallaBienvenida({super.key});
@@ -8,11 +10,12 @@ class PantallaBienvenida extends StatelessWidget {
   static const Color _fondo = Color(0xFF041E42);
 
   void _continuar(BuildContext context) {
+    final destino = PerfilUsuario.preparacionCompleta
+        ? const PantallaInicio()
+        : const PantallaPreparacion();
     Navigator.pushReplacement<void, void>(
       context,
-      MaterialPageRoute<void>(
-        builder: (_) => const PantallaInicio(),
-      ),
+      MaterialPageRoute<void>(builder: (_) => destino),
     );
   }
 
