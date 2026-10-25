@@ -319,10 +319,25 @@ class _PantallaInicioState extends State<PantallaInicio> {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          'Tu meta: \${PerfilUsuario.metaSemanal} días por semana',
+                          'Tu meta: ${PerfilUsuario.metaSemanal} días por semana',
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.75),
                             fontSize: 13,
+                          ),
+                        ),
+                        const SizedBox(height: 7),
+                        Text(
+                          'Esta semana: ${PerfilUsuario.diasActivosEstaSemana}/${PerfilUsuario.metaSemanal} días',
+                          style: const TextStyle(color: Color(0xFF9CF4E9), fontSize: 13),
+                        ),
+                        const SizedBox(height: 5),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: LinearProgressIndicator(
+                            value: (PerfilUsuario.diasActivosEstaSemana / PerfilUsuario.metaSemanal).clamp(0.0, 1.0).toDouble(),
+                            minHeight: 7,
+                            backgroundColor: Colors.white24,
+                            color: _turquesa,
                           ),
                         ),
                         const SizedBox(height: 9),

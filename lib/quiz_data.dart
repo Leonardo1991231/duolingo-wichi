@@ -85,6 +85,7 @@ class PerfilUsuario {
   static const String _claveUltimoDia = 'wichi.ultimo_dia.v1';
   static const String _claveMotivo = 'wichi.motivo.v1';
   static const String _claveMetaSemanal = 'wichi.meta_semanal.v1';
+  static const String _claveDiasActividad = 'wichi.dias_actividad.v1';
   static String? _userId;
 
   static String nombre = 'Aprendiz';
@@ -94,6 +95,7 @@ class PerfilUsuario {
   static String? ultimoDiaActividad;
   static String? motivoAprendizaje;
   static int metaSemanal = 5;
+  static Set<String> diasActividad = <String>{};
   static Set<String> leccionesCompletadas = <String>{};
   static Map<String, int> mejoresPuntajes = <String, int>{};
 
@@ -104,6 +106,16 @@ class PerfilUsuario {
     return ultimoDiaActividad == hoy || ultimoDiaActividad == ayer
         ? rachaActual
         : 0;
+  }
+
+  static int get diasActivosEstaSemana {
+    final hoy = DateTime.now();
+    final fechaHoy = DateTime(hoy.year, hoy.month, hoy.day);
+    final lunes = fechaHoy.subtract(Duration(days: fechaHoy.weekday - 1));
+    return diasActividad.where((valor) {
+      final fecha = DateTime.tryParse(valor);
+      return fecha != null && !fecha.isBefore(lunes) && !fecha.isAfter(fechaHoy);
+    }).length;
   }
 
   static String _fecha(DateTime fecha) =>
@@ -128,6 +140,10 @@ class PerfilUsuario {
     ultimoDiaActividad = preferencias.getString(_clave(_claveUltimoDia));
     motivoAprendizaje = preferencias.getString(_clave(_claveMotivo));
     metaSemanal = preferencias.getInt(_clave(_claveMetaSemanal)) ?? 5;
+    diasActividad = (preferencias.getStringList(_clave(_claveDiasActividad)) ?? <String>[]).toSet();
+    if (diasActividad.isEmpty && ultimoDiaActividad != null) {
+      diasActividad.add(ultimoDiaActividad!);
+    }
     mejoresPuntajes = <String, int>{};
     final puntajesGuardados =
         preferencias.getString(_clave(_claveMejoresPuntajes));
@@ -176,6 +192,9 @@ class PerfilUsuario {
     final motivoInvitado = importarInvitado
         ? (_userId == null ? motivoAprendizaje : preferencias.getString(_claveMotivo))
         : null;
+    final diasInvitados = importarInvitado
+        ? (_userId == null ? Set<String>.from(diasActividad) : (preferencias.getStringList(_claveDiasActividad) ?? <String>[]).toSet())
+        : <String>{};
     final metaInvitada = importarInvitado
         ? (_userId == null ? metaSemanal : preferencias.getInt(_claveMetaSemanal) ?? 5)
         : 5;
@@ -214,6 +233,7 @@ class PerfilUsuario {
 
     estrellasTotales = _maximo(estrellasTotales, estrellasInvitado);
     medallasGanadas = _maximo(medallasGanadas, medallasInvitado);
+    diasActividad.addAll(diasInvitados);
     if (motivoAprendizaje == null && motivoInvitado != null) {
       motivoAprendizaje = motivoInvitado;
       metaSemanal = metaInvitada;
@@ -257,6 +277,10 @@ class PerfilUsuario {
       if (leccionesRemotas is List) {
         leccionesCompletadas.addAll(leccionesRemotas.whereType<String>());
       }
+      final diasRemotos = datos['diasActividad'];
+      if (diasRemotos is List) {
+        diasActividad.addAll(diasRemotos.whereType<String>());
+      }
       final motivoRemoto = datos['motivoAprendizaje'];
       if (motivoRemoto is String && motivoRemoto.isNotEmpty) {
         motivoAprendizaje = motivoRemoto;
@@ -294,6 +318,7 @@ class PerfilUsuario {
     await preferencias.setInt(_clave(_claveMedallas), medallasGanadas);
     await preferencias.setInt(_clave(_claveRacha), rachaActual);
     await preferencias.setInt(_clave(_claveMetaSemanal), metaSemanal);
+    await preferencias.setStringList(_clave(_claveDiasActividad), diasActividad.toList()..sort());
     if (motivoAprendizaje != null) {
       await preferencias.setString(_clave(_claveMotivo), motivoAprendizaje!);
     }
@@ -319,6 +344,7 @@ class PerfilUsuario {
       'medallas': medallasGanadas,
       'rachaActual': rachaActual,
       'metaSemanal': metaSemanal,
+      'diasActividad': diasActividad.toList(),
       if (motivoAprendizaje != null) 'motivoAprendizaje': motivoAprendizaje!,
       if (ultimoDiaActividad != null)
         'ultimoDiaActividad': ultimoDiaActividad!,
@@ -334,6 +360,7 @@ class PerfilUsuario {
     await preferencias.setInt(_claveMedallas, 0);
     await preferencias.setInt(_claveRacha, 0);
     await preferencias.remove(_claveUltimoDia);
+    await preferencias.remove(_claveDiasActividad);
     await preferencias.setStringList(_claveLecciones, <String>[]);
     await preferencias.setString(_claveMejoresPuntajes, '{}');
   }
@@ -377,6 +404,9 @@ class PerfilUsuario {
   }) async {
     estrellasTotales += estrellasGanadas;
     final hoy = _fecha(DateTime.now());
+    diasActividad.add(hoy);
+    final fechaLimite = _fecha(DateTime.now().subtract(const Duration(days: 35)));
+    diasActividad.removeWhere((fecha) => fecha.compareTo(fechaLimite) < 0);
     if (ultimoDiaActividad != hoy) {
       final ayer = _fecha(DateTime.now().subtract(const Duration(days: 1)));
       rachaActual = ultimoDiaActividad == ayer ? rachaActual + 1 : 1;
