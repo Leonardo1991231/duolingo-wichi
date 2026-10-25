@@ -53,10 +53,12 @@ class _PantallaInicioState extends State<PantallaInicio> {
     );
   }
 
-  Future<void> _abrirDiccionario() async {
+  Future<void> _abrirDiccionario({bool sincronizarAhora = false}) async {
     await Navigator.push<void>(
       context,
-      MaterialPageRoute<void>(builder: (_) => const PantallaDiccionario()),
+      MaterialPageRoute<void>(
+        builder: (_) => PantallaDiccionario(sincronizarAlAbrir: sincronizarAhora),
+      ),
     );
   }
 
@@ -157,6 +159,15 @@ class _PantallaInicioState extends State<PantallaInicio> {
               accion: () {
                 Navigator.pop(context);
                 _abrirDiccionario();
+              },
+            ),
+            _opcionMenu(
+              icono: Icons.sync_rounded,
+              titulo: 'Sincronizar diccionario',
+              subtitulo: 'Traé las palabras más recientes',
+              accion: () {
+                Navigator.pop(context);
+                _abrirDiccionario(sincronizarAhora: true);
               },
             ),
             _opcionMenu(

@@ -25,7 +25,9 @@ class PalabraDiccionario {
 }
 
 class PantallaDiccionario extends StatefulWidget {
-  const PantallaDiccionario({super.key});
+  final bool sincronizarAlAbrir;
+
+  const PantallaDiccionario({super.key, this.sincronizarAlAbrir = false});
 
   @override
   State<PantallaDiccionario> createState() => _PantallaDiccionarioState();
@@ -42,11 +44,43 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
   String? _pathAudioGrabado;
   Uint8List? _imagenSeleccionadaBytes;
 
-  // Lista en memoria donde se irán listando los aportes de los usuarios
+  // Estado de publicación y sincronización en tiempo real.
   bool _publicando = false;
+  bool _sincronizando = false;
 
   final TextEditingController _wichiController = TextEditingController();
   final TextEditingController _castellanoController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.sincronizarAlAbrir) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _sincronizarAhora());
+    }
+  }
+
+  Future<void> _sincronizarAhora() async {
+    if (_sincronizando) return;
+    setState(() => _sincronizando = true);
+    try {
+      final resultado = await FirebaseFirestore.instance
+          .collection('diccionario')
+          .orderBy('creadoEn', descending: true)
+          .get(const GetOptions(source: Source.server));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Diccionario actualizado: ${resultado.size} palabras.')) ,
+      );
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No se pudo conectar. Revisá internet e intentá de nuevo.')) ,
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _sincronizando = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -329,6 +363,15 @@ class _PantallaDiccionarioState extends State<PantallaDiccionario> {
         ),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            tooltip: 'Sincronizar ahora',
+            onPressed: _sincronizando ? null : _sincronizarAhora,
+            icon: _sincronizando
+                ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                : const Icon(Icons.sync_rounded),
+          ),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
