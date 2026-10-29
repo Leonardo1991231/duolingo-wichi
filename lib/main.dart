@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'quiz_data.dart';
 import 'screens/pantalla_bienvenida.dart';
+import 'widgets/zorro_asistente.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,18 @@ class WichiFacilApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: zorroNavigatorKey,
+      builder: (context, child) => Stack(
+        fit: StackFit.expand,
+        children: [
+          child ?? const SizedBox.shrink(),
+          const Positioned(
+            right: 8,
+            bottom: 8,
+            child: SafeArea(child: ZorroAsistente()),
+          ),
+        ],
+      ),
       debugShowCheckedModeBanner: false,
       title: 'Wichí Fácil',
       theme: ThemeData(

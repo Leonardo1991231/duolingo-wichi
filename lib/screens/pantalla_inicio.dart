@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../quiz_data.dart';
 import '../widgets/ilustracion_educativa.dart';
+import '../widgets/zorro_asistente.dart';
 import 'pantalla_diccionario.dart';
 import 'pantalla_ejercicio.dart';
 import 'pantalla_juego_infantil.dart';
@@ -240,7 +241,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
       modulo1Completado,
       modulo2Completado,
     ].where((completa) => completa).length;
-
+    ContextoLocalZorro.entrarInicio();
     return Scaffold(
       backgroundColor: _fondo,
       drawer: _crearMenu(),
@@ -284,7 +285,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(18, 8, 18, 28),
+        padding: const EdgeInsets.fromLTRB(18, 8, 18, 140),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

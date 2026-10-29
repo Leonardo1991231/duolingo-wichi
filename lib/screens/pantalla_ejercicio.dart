@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+import '../models/estado_asistente.dart';
 import '../quiz_data.dart';
+import '../widgets/zorro_asistente.dart';
 import '../widgets/ilustracion_educativa.dart';
 
 class PantallaEjercicio extends StatefulWidget {
@@ -32,6 +34,19 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
   String? _opcionSeleccionada;
   final List<String> _palabrasSeleccionadas = <String>[];
   final AudioPlayer _audioPlayer = AudioPlayer();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && widget.preguntas.isNotEmpty) {
+        ContextoLocalZorro.emitirEvento(
+          EventoZorro.activityStarted,
+          modulo: widget.nombreModulo,
+        );
+      }
+    });
+  }
 
   Question get _pregunta => widget.preguntas[_currentIndex];
 
@@ -80,6 +95,11 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
         _combo = 0;
       }
     });
+    ContextoLocalZorro.emitirEvento(
+      correcta ? EventoZorro.correctAnswer : EventoZorro.incorrectAnswer,
+      modulo: widget.nombreModulo,
+      respuestaEsperada: _pregunta.correctAnswer,
+    );
   }
 
   Future<void> _continuar() async {
@@ -150,6 +170,10 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
         actions: [
           FilledButton(
             onPressed: () {
+              ContextoLocalZorro.emitirEvento(
+                EventoZorro.lessonCompleted,
+                modulo: widget.nombreModulo,
+              );
               Navigator.pop(context);
               Navigator.pop(context);
             },
@@ -439,6 +463,18 @@ class _PantallaEjercicioState extends State<PantallaEjercicio> {
         ? TipoIlustracion.animales
         : TipoIlustracion.saludos;
 
+    final seleccionActual = _pregunta.type == QuestionType.wordBank
+        ? _palabrasSeleccionadas.join(' ')
+        : (_opcionSeleccionada ?? 'todavía no eligió una respuesta');
+    ContextoLocalZorro.actualizarLeccion(
+      modulo: widget.nombreModulo,
+      instruccion: _pregunta.instruction,
+      textoPregunta: _pregunta.questionText,
+      respuestaEsperada: _pregunta.correctAnswer,
+      respuestaActual: seleccionActual,
+      comprobada: _respuestaComprobada,
+      correcta: _respuestaCorrecta,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.nombreModulo),
