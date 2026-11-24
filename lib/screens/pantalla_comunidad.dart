@@ -302,22 +302,12 @@ class _RadiosLocales extends StatelessWidget {
             child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Icon(Icons.waves_rounded, size: 38, color: Color(0xFF9DF2E8)),
               SizedBox(height: 12),
-              Text('Voces del norte', style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold)),
+              Text('Radio del norte', style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold)),
               SizedBox(height: 5),
-              Text('Escuchá radios de la región desde sus espacios oficiales.', style: TextStyle(color: Colors.white70)),
+              Text('Escuchá Radio Nacional Tartagal desde su reproductor oficial.', style: TextStyle(color: Colors.white70)),
             ]),
           ),
           const SizedBox(height: 18),
-          _RadioCard(
-            nombre: 'La Voz Indígena',
-            frecuencia: '94.5 FM · Tartagal',
-            descripcion: 'Radio comunitaria de los pueblos indígenas. Abrí directamente su transmisión oficial en vivo.',
-            icono: Icons.diversity_3_rounded,
-            colores: const [Color(0xFF9A4FAD), Color(0xFF542D91)],
-            boton: 'Escuchar en vivo',
-            onTap: () => _abrir(context, 'https://www.youtube.com/@lavozindigenaradio/live'),
-          ),
-          const SizedBox(height: 12),
           _RadioCard(
             nombre: 'Radio Nacional Tartagal',
             frecuencia: 'LRA 25 · AM 540 · FM 92.3',
@@ -328,7 +318,7 @@ class _RadiosLocales extends StatelessWidget {
             onTap: () => _abrir(context, 'https://www.radionacional.com.ar/reproductor/reproductor_lra25_n2.php'),
           ),
           const SizedBox(height: 14),
-          const Text('Se abre el reproductor oficial de cada emisora. Necesitás conexión a internet.', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFFADBDD0), fontSize: 12)),
+          const Text('Necesitás conexión a internet para escuchar la transmisión.', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFFADBDD0), fontSize: 12)),
         ],
       );
 }
