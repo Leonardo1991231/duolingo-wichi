@@ -8,12 +8,42 @@ class MensajesAsistente {
     required EventoZorro evento,
     String modulo = '',
     String respuestaCorrecta = '',
+    String detalle = '',
   }) {
     return switch (evento) {
       EventoZorro.appOpened => ReaccionZorro(
           id: id,
           estado: EstadoZorro.greeting,
           mensaje: '¡Hola! ¿Qué palabra en wichí vamos a aprender hoy?',
+        ),
+      EventoZorro.preparationStarted => ReaccionZorro(
+          id: id,
+          estado: EstadoZorro.greeting,
+          mensaje: '¡Hola! Te acompaño a preparar un camino para aprender wichí.',
+        ),
+      EventoZorro.motivationSelected => ReaccionZorro(
+          id: id,
+          estado: EstadoZorro.happy,
+          mensaje: detalle.isEmpty
+              ? 'Qué bueno que tengas ganas de aprender. Vamos paso a paso.'
+              : 'Ese es un gran motivo: $detalle. Vamos paso a paso.',
+        ),
+      EventoZorro.goalStepOpened => ReaccionZorro(
+          id: id,
+          estado: EstadoZorro.talking,
+          mensaje: 'Ahora elegí una meta semanal que puedas sostener a tu ritmo.',
+        ),
+      EventoZorro.weeklyGoalSelected => ReaccionZorro(
+          id: id,
+          estado: EstadoZorro.happy,
+          mensaje: detalle.isEmpty
+              ? 'Perfecto. Una meta a tu ritmo vale mucho.'
+              : 'Perfecto: $detalle. Una meta a tu ritmo vale mucho.',
+        ),
+      EventoZorro.preparationCompleted => ReaccionZorro(
+          id: id,
+          estado: EstadoZorro.celebrating,
+          mensaje: '¡Listo! Ya elegiste tu objetivo. ¡Empecemos a aprender wichí!',
         ),
       EventoZorro.activityStarted => ReaccionZorro(
           id: id,

@@ -27,12 +27,14 @@ class ContextoLocalZorro {
     EventoZorro evento, {
     String modulo = '',
     String respuestaEsperada = '',
+    String detalle = '',
   }) {
     reacciones.value = MensajesAsistente.paraEvento(
       id: ++_secuencia,
       evento: evento,
       modulo: modulo,
       respuestaCorrecta: respuestaEsperada,
+      detalle: detalle,
     );
   }
 

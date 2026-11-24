@@ -2,6 +2,11 @@ enum EstadoZorro { idle, greeting, talking, thinking, happy, sad, celebrating }
 
 enum EventoZorro {
   appOpened,
+  preparationStarted,
+  motivationSelected,
+  goalStepOpened,
+  weeklyGoalSelected,
+  preparationCompleted,
   activityStarted,
   correctAnswer,
   incorrectAnswer,
