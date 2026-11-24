@@ -51038,7 +51038,7 @@ s=A.h5(s,p,q,q)
 r=e?a:q
 return A.kF(A.wI(B.KA,n,r,new A.b1(B.Ki,l,q),m,s),q,B.cN,q,q,new A.bU(o,B.o))},
 I(a){var s=this,r=null,q=$.iv.n(0,"M\xf3dulo 1: Saludos"),p=$.iv.n(0,"M\xf3dulo 2: Animales del Monte")
-return A.jl(A.lM(r,B.c5,r,r,r,B.D7),B.c5,A.wK(A.b([B.a5f,B.bf,B.a5L,B.bf,B.a61,B.eF,s.W7(new A.ayI(s,a),q,a,"Aprend\xe9 a saludar y presentarte.",!0,1,"Saludos b\xe1sicos"),s.W7(new A.ayJ(s,a),p,a,"Descubr\xed la fauna del Chaco.",q,2,"Animales del monte"),B.bf,A.kF(A.wI(r,B.Gq,new A.ayK(a),B.a6a,B.a5h,B.N7),r,B.cN,r,r,r)],t.p),B.KO,B.a_,!1),r,r,r)}}
+return A.jl(A.lM(r,B.c5,r,r,r,B.D7),B.c5,A.wK(A.b([B.a5f,B.bf,B.a5M,B.bf,B.a62,B.eF,s.W7(new A.ayI(s,a),q,a,"Aprend\xe9 a saludar y presentarte.",!0,1,"Saludos b\xe1sicos"),s.W7(new A.ayJ(s,a),p,a,"Descubr\xed la fauna del Chaco.",q,2,"Animales del monte"),B.bf,A.kF(A.wI(r,B.Gq,new A.ayK(a),B.a6b,B.a5h,B.N7),r,B.cN,r,r,r)],t.p),B.KO,B.a_,!1),r,r,r)}}
 A.ayG.prototype={
 $1(a){return new A.k8(this.a,this.b,null)},
 $S:196}
@@ -51056,14 +51056,14 @@ $1(a){return B.Vr},
 $S:200}
 A.a_E.prototype={
 I(a){var s,r,q,p=null,o="Lecci\xf3n completada",n="Disponible para practicar",m=new A.aJ(A.b([$.iv.n(0,"M\xf3dulo 1: Saludos"),$.iv.n(0,"M\xf3dulo 2: Animales del Monte")],t.HZ),new A.aC5(),t.GD).gF(0),l=m/2,k=A.lM(p,B.c5,p,p,p,B.D7),j=A.c5(22),i=t.p
-j=A.ev(p,A.cm(A.b([B.a5A,B.bf,A.aP(B.h.k(B.e.aT(l*100))+"%",p,p,p,p,B.a1y,p,p),A.NU(A.c5(8),A.afv(B.oH,B.GS,10,l)),B.eD,A.aP(B.h.k(m)+" de 2 misiones completadas",p,p,p,p,B.h9,p,p)],i),B.E,B.q,B.y),B.p,p,p,new A.cl(B.cN,p,p,j,p,p,B.ae),p,p,p,p,B.hZ,p,p,p)
+j=A.ev(p,A.cm(A.b([B.a5B,B.bf,A.aP(B.h.k(B.e.aT(l*100))+"%",p,p,p,p,B.a1y,p,p),A.NU(A.c5(8),A.afv(B.oH,B.GS,10,l)),B.eD,A.aP(B.h.k(m)+" de 2 misiones completadas",p,p,p,p,B.h9,p,p)],i),B.E,B.q,B.y),B.p,p,p,new A.cl(B.cN,p,p,j,p,p,B.ae),p,p,p,p,B.hZ,p,p,p)
 s=m>0
 r=this.Jx(B.M1,"Saludos b\xe1sicos",s?o:n,s)
 q=m>1
 if(q)s=o
 else s=s?n:"Se habilita al completar la primera misi\xf3n"
 q=this.Jx(B.lJ,"Animales del monte",s,q)
-return A.jl(k,B.c5,A.wK(A.b([B.a6l,B.bf,B.a5E,B.Cj,j,B.a_a,B.a5Y,B.cU,r,q,this.Jx(B.fr,"Racha actual",A.Ep()===0?"Empez\xe1 tu racha hoy":B.h.k(A.Ep())+" d\xedas seguidos",!1)],i),B.KP,B.a_,!1),p,p,p)},
+return A.jl(k,B.c5,A.wK(A.b([B.a6l,B.bf,B.a5F,B.Cj,j,B.a_a,B.a5Z,B.cU,r,q,this.Jx(B.fr,"Racha actual",A.Ep()===0?"Empez\xe1 tu racha hoy":B.h.k(A.Ep())+" d\xedas seguidos",!1)],i),B.KP,B.a_,!1),p,p,p)},
 Jx(a,b,c,d){var s=null,r=A.c5(18),q=A.h5(a,d?B.pk:B.I3,s,s),p=A.aP(b,s,s,s,s,B.bY,s,s)
 return A.kF(A.wI(s,q,s,A.aP(c,s,s,s,s,B.h9,s,s),p,s),s,B.cN,s,s,new A.bU(r,B.o))}}
 A.aC5.prototype={
@@ -51186,7 +51186,7 @@ A.aG_.prototype={
 $1(a){return B.xt},
 $S:208}
 A.aG7.prototype={
-$1(a){return A.aJk(A.b([A.arc(B.a5X,new A.aG5(a),null),A.Pe(B.a5C,new A.aG6(a),null)],t.p),B.a5N,B.a6b)},
+$1(a){return A.aJk(A.b([A.arc(B.a5Y,new A.aG5(a),null),A.Pe(B.a5D,new A.aG6(a),null)],t.p),B.a5O,B.a6c)},
 $S:126}
 A.aG5.prototype={
 $0(){A.cB(this.a,!1).hH(!1)
@@ -51199,7 +51199,7 @@ $S:0}
 A.aG8.prototype={
 $1(a){var s=this,r=null,q=A.bw(a,r,t.w).w,p=s.b,o=s.c,n=A.aLn(o,B.ND,r,90,1,new A.aG2()),m=s.d,l=s.a,k=A.aLn(m,B.NC,B.CR,r,1,new A.aG3(l)),j=s.e,i=A.aLn(j,B.NE,r,240,3,r),h=l.d
 o=h?r:new A.aG4(l,p,m,a,s.f,o,j)
-o=A.wK(A.b([B.a5g,B.bf,B.a5K,B.jh,n,B.eD,k,B.eD,i,B.bf,A.aK5(h?B.Cl:B.MX,B.a5F,o,r)],t.p),r,B.a_,!0)
+o=A.wK(A.b([B.a5g,B.bf,B.a5L,B.jh,n,B.eD,k,B.eD,i,B.bf,A.aK5(h?B.Cl:B.MX,B.a5G,o,r)],t.p),r,B.a_,!0)
 return new A.b1(new A.a5(20,18,20,q.f.d+20),new A.Cw(o,B.k1,p),r)},
 $S:212}
 A.aG2.prototype={
@@ -51246,7 +51246,7 @@ r=r==null?q:r.gDf()
 if(r!=null)B.c.L(s,r)
 B.c.f4(s,new A.aGb())
 r=s.length
-if(r===0)return A.fE(new A.b1(B.pM,A.cm(A.b([B.MJ,B.cU,B.a5O,B.Ck,B.a5o,B.jh,A.aK5(B.MB,B.a5v,this.a.gW4(),q)],t.p),B.E,B.q,B.bc),q),q,q)
+if(r===0)return A.fE(new A.b1(B.pM,A.cm(A.b([B.MJ,B.cU,B.a5P,B.Ck,B.a5p,B.jh,A.aK5(B.MB,B.a5w,this.a.gW4(),q)],t.p),B.E,B.q,B.bc),q),q,q)
 return A.aKy(q,new A.aGc(this.a,s),r,B.KH)},
 $S:225}
 A.aGb.prototype={
@@ -51291,13 +51291,13 @@ return A.l(A.a4A(A.hL(b,0,null),B.lO),$async$v_)
 case 2:if(!d&&a.e!=null)a.ab(t.J).f.ia(B.a_w)
 return A.p(null,r)}})
 return A.q($async$v_,r)},
-I(a){var s=null
-return A.wK(A.b([A.ev(s,B.IU,B.p,s,s,new A.cl(s,s,s,A.c5(24),s,B.Oi,B.ae),s,s,s,s,B.hZ,s,s,s),B.eE,A.aTu("Abrir transmisi\xf3n oficial",B.Ru,"Radio comunitaria hecha por comunicadoras y comunicadores de pueblos ind\xedgenas. Su sitio oficial enlaza la transmisi\xf3n en vivo.","94.5 FM \xb7 Tartagal",B.Mo,"La Voz Ind\xedgena",new A.aCa(this,a)),B.cU,A.aTu("Abrir emisora",B.PM,"Emisora p\xfablica regional. Consult\xe1 sus programas y contenidos locales en el sitio oficial.","LRA 25 \xb7 AM 540 \xb7 FM 92.3",B.lK,"Radio Nacional Tartagal",new A.aCb(this,a)),B.jg,B.a6d],t.p),B.KG,B.a_,!1)}}
+I(a){var s=null,r="Escuchar en vivo"
+return A.wK(A.b([A.ev(s,B.IU,B.p,s,s,new A.cl(s,s,s,A.c5(24),s,B.Oi,B.ae),s,s,s,s,B.hZ,s,s,s),B.eE,A.aTu(r,B.Ru,"Radio comunitaria de los pueblos ind\xedgenas. Abr\xed directamente su transmisi\xf3n oficial en vivo.","94.5 FM \xb7 Tartagal",B.Mo,"La Voz Ind\xedgena",new A.aCa(this,a)),B.cU,A.aTu(r,B.PM,"Emisora p\xfablica regional. Entr\xe1 al reproductor oficial de LRA 25.","LRA 25 \xb7 AM 540 \xb7 FM 92.3",B.lK,"Radio Nacional Tartagal",new A.aCb(this,a)),B.jg,B.a5k],t.p),B.KG,B.a_,!1)}}
 A.aCa.prototype={
-$0(){return this.a.v_(this.b,"https://radiolavozindigena.org/")},
+$0(){return this.a.v_(this.b,"https://www.youtube.com/@lavozindigenaradio/live")},
 $S:0}
 A.aCb.prototype={
-$0(){return this.a.v_(this.b,"https://www.radionacional.com.ar/category/lra-25-tartagal/")},
+$0(){return this.a.v_(this.b,"https://www.radionacional.com.ar/reproductor/reproductor_lra25_n2.php")},
 $S:0}
 A.a_M.prototype={
 I(a){var s=this,r=null,q=A.c5(22),p=A.c5(17),o=t.p
@@ -51447,7 +51447,7 @@ acA(){var s=this.c
 s.toString
 A.aVX(null,new A.aA5(this),s,!0,B.XA,!1,t.z)},
 I(a){var s,r,q=null,p=this.z,o=p?q:this.gar5()
-o=A.lM(A.b([A.wm(q,q,p?B.n3:B.qA,q,q,o,q,q,"Sincronizar ahora")],t.p),B.fJ,q,B.k,q,B.a5P)
+o=A.lM(A.b([A.wm(q,q,p?B.n3:B.qA,q,q,o,q,q,"Sincronizar ahora")],t.p),B.fJ,q,B.k,q,B.a5Q)
 s=$.bD
 r=(s==null?$.bD=$.dC():s).dL("[DEFAULT]")
 A.bM(r,$.dI(),!0)
@@ -51495,7 +51495,7 @@ s=l?B.m8:B.kk
 r=t.p
 s=A.d5(A.b([k,B.jf,A.eK(A.aPw(j,i,new A.aA2(o,a,b),A.aJX(q,q,s,q,q,q,q,q,q,l?B.k:B.a0,q,q,q,q,q,q,q,q,q,q)))],r),B.E,B.q,B.y,0)
 o=o.y?q:new A.aA3(o,a,b)
-return new A.b1(new A.a5(20,20,20,p.f.d),A.TN(A.cm(A.b([B.a5Q,B.eF,n,B.a_8,m,B.eF,s,B.a5V,B.eD,B.a_9,new A.BU(!1,o,q,q,q,A.aJX(q,q,B.fJ,q,q,q,q,q,q,q,q,q,B.Kr,q,q,q,q,q,q,q),q,q,!1,q,!0,q,B.a5w,q),B.eF],r),B.bJ,B.q,B.bc),q,B.a4,q,q,B.a_),q)},
+return new A.b1(new A.a5(20,20,20,p.f.d),A.TN(A.cm(A.b([B.a5R,B.eF,n,B.a_8,m,B.eF,s,B.a5W,B.eD,B.a_9,new A.BU(!1,o,q,q,q,A.aJX(q,q,B.fJ,q,q,q,q,q,q,q,q,q,B.Kr,q,q,q,q,q,q,q),q,q,!1,q,!0,q,B.a5x,q),B.eF],r),B.bJ,B.q,B.bc),q,B.a4,q,q,B.a_),q)},
 $S:497}
 A.aA1.prototype={
 $0(){var s=0,r=A.r(t.H),q=this
@@ -51532,7 +51532,7 @@ s=b.b
 r=s==null?q:s.gDf()
 if(r==null)r=B.QL
 s=r.length
-if(s===0)return A.fE(new A.b1(B.pM,A.cm(A.b([B.Nc,B.eE,B.a5m],t.p),B.E,B.q,B.bc),q),q,q)
+if(s===0)return A.fE(new A.b1(B.pM,A.cm(A.b([B.Nc,B.eE,B.a5n],t.p),B.E,B.q,B.bc),q),q,q)
 return A.aKy(q,new A.aAf(r),s,q)},
 $S:225}
 A.aAf.prototype={
@@ -51627,7 +51627,7 @@ q=A.T(new A.Z(q,r.gaf3(),s),s.i("af.E"))
 return A.cm(q,B.E,B.q,B.y)}},
 af5(){var s,r,q,p,o=this,n=null
 if(!o.r){s=o.gVl()?o.gaeN():n
-return A.iA(!0,new A.b1(B.KB,A.dH(A.Pe(B.a69,s,A.abb(B.Z,B.co,B.pa,B.aI,B.pL,n)),n,1/0),n),!1,B.V,!1)}s=o.w
+return A.iA(!0,new A.b1(B.KB,A.dH(A.Pe(B.a6a,s,A.abb(B.Z,B.co,B.pa,B.aI,B.pL,n)),n,1/0),n),!1,B.V,!1)}s=o.w
 r=s?B.Ik:B.HV
 q=s?B.GZ:B.GG
 s=s?"\xa1Muy bien!":"Repasemos esta respuesta"
@@ -51635,7 +51635,7 @@ p=t.p
 s=A.b([A.aP(s,n,n,n,n,A.eC(n,n,r,n,n,n,n,n,n,n,n,20,n,n,B.a1,n,n,!0,n,n,n,n,n,n,n,n),n,n)],p)
 if(!o.w)B.c.L(s,A.b([B.cV,A.aP("La respuesta correcta es: "+o.a.c[o.d].e,n,n,n,n,B.dz,n,n)],p))
 s.push(B.cU)
-s.push(A.Pe(B.a6_,o.gaos(),A.abb(r,n,n,B.aI,B.kV,n)))
+s.push(A.Pe(B.a60,o.gaos(),A.abb(r,n,n,B.aI,B.kV,n)))
 return A.iA(!0,A.ev(n,A.cm(s,B.bJ,B.q,B.y),B.p,q,n,n,n,n,n,n,B.KD,n,n,1/0),!1,B.V,!1)},
 l(){this.Q.l()
 this.aB()},
@@ -51688,7 +51688,7 @@ s.w=s.r=!1},
 $S:0}
 A.aAw.prototype={
 $1(a){var s=null,r=this.a,q=t.p,p=A.cm(A.b([A.aP("Respuestas correctas: "+r.e+" de "+r.a.c.length,s,s,s,s,s,B.aU,s),B.jg,A.d5(A.b([B.MR,B.n1,A.aP("+"+this.b+" estrellas",s,s,s,s,s,s,s)],q),B.E,B.eh,B.y,0),B.bf,A.d5(A.b([B.Mw,B.n1,A.aP(""+A.Ep()+" d\xedas de racha",s,s,s,s,s,s,s)],q),B.E,B.eh,B.y,0)],q),B.E,B.q,B.bc)
-return A.aJk(A.b([A.Pe(B.a5H,new A.aAv(r,a),s)],q),p,B.a6f)},
+return A.aJk(A.b([A.Pe(B.a5I,new A.aAv(r,a),s)],q),p,B.a6f)},
 $S:126}
 A.aAv.prototype={
 $0(){A.o3(B.Li,"",this.a.a.d,"")
@@ -51827,7 +51827,7 @@ s=i.aff()
 r=A.c5(22)
 q=A.lP(B.co,1)
 p=t.p
-r=A.lM(A.b([A.ev(g,A.d5(A.b([B.Mt,B.Ch,A.aP(""+e,g,g,g,g,B.bY,g,g)],p),B.E,B.q,B.y,0),B.p,g,g,new A.cl(B.bS,g,q,r,g,g,B.ae),g,g,g,B.Kl,B.Kn,g,g,g),A.wm(g,g,B.MO,g,g,i.gaot(),g,g,"Mi perfil"),B.Cg],p),B.bB,g,B.k,g,B.a5y)
+r=A.lM(A.b([A.ev(g,A.d5(A.b([B.Mt,B.Ch,A.aP(""+e,g,g,g,g,B.bY,g,g)],p),B.E,B.q,B.y,0),B.p,g,g,new A.cl(B.bS,g,q,r,g,g,B.ae),g,g,g,B.Kl,B.Kn,g,g,g),A.wm(g,g,B.MO,g,g,i.gaot(),g,g,"Mi perfil"),B.Cg],p),B.bB,g,B.k,g,B.a5z)
 q=A.c5(24)
 o=A.lP(A.ar(64,B.Z.B()>>>16&255,B.Z.B()>>>8&255,B.Z.B()&255),1)
 n=A.aP("Desde cero, con respeto. Segu\xed el camino y descubr\xed nuevas palabras.",g,g,g,g,A.eC(g,g,A.ar(209,B.k.B()>>>16&255,B.k.B()>>>8&255,B.k.B()&255),g,g,g,g,g,g,g,g,g,g,g,g,g,g,!0,g,g,g,g,g,g,g,g),g,g)
@@ -51844,7 +51844,7 @@ m=$.iw.h(0,f)
 if(m==null)m=0
 m=i.S8(new A.aAR(i,d),c,"Descubr\xed la fauna del Chaco.",d,B.lJ,B.Db,m,2,"Animales del monte",!0)
 l=A.c5(20)
-return A.jl(r,B.bB,A.TN(A.cm(A.b([q,B.n4,B.a6k,B.eD,o,B.n4,B.a5u,B.cV,B.a6p,B.eE,n,m,B.eE,A.f6(!1,B.P,!0,g,A.wI(B.KK,A.ev(g,B.MG,B.p,g,g,new A.cl(A.ar(51,B.kl.B()>>>16&255,B.kl.B()>>>8&255,B.kl.B()&255),g,g,A.c5(15),g,g,B.ae),g,48,g,g,g,g,g,48),i.gacB(),B.a5J,B.a6m,B.MF),B.p,B.bS,0,g,g,new A.bU(l,B.EJ),g,g,B.bt)],p),B.bJ,B.q,B.y),g,B.a4,B.KJ,g,B.a_),g,s,g)},
+return A.jl(r,B.bB,A.TN(A.cm(A.b([q,B.n4,B.a6k,B.eD,o,B.n4,B.a5v,B.cV,B.a6p,B.eE,n,m,B.eE,A.f6(!1,B.P,!0,g,A.wI(B.KK,A.ev(g,B.MG,B.p,g,g,new A.cl(A.ar(51,B.kl.B()>>>16&255,B.kl.B()>>>8&255,B.kl.B()&255),g,g,A.c5(15),g,g,B.ae),g,48,g,g,g,g,g,48),i.gacB(),B.a5K,B.a6m,B.MF),B.p,B.bS,0,g,g,new A.bU(l,B.EJ),g,g,B.bt)],p),B.bJ,B.q,B.y),g,B.a4,B.KJ,g,B.a_),g,s,g)},
 S8(a,b,c,d,e,f,g,h,a0,a1){var s,r,q,p,o,n,m,l,k,j,i=null
 if(b)s=B.Z
 else s=d?B.IM:B.Iw
@@ -51860,7 +51860,7 @@ n=A.aP("Misi\xf3n "+h,i,i,i,i,A.eC(i,i,s,i,i,i,i,i,i,i,i,12,i,i,B.a1,i,i,!0,i,0.
 m=t.p
 n=A.b([n,B.cV,A.aP(a0,i,i,i,i,A.eC(i,i,d?B.k:B.hD,i,i,i,i,i,i,i,i,16,i,i,B.a1,i,i,!0,i,i,i,i,i,i,i,i),i,i),B.cV,A.aP(c,i,i,i,i,B.a2i,i,i)],m)
 if(b)B.c.L(n,A.b([B.bf,A.d5(A.b([B.N0,B.Cg,A.aP("Mejor resultado: "+g,i,i,i,i,B.a0F,i,i)],m),B.E,B.q,B.y,0)],m))
-else if(!d)B.c.L(n,A.b([B.bf,B.a5T],m))
+else if(!d)B.c.L(n,A.b([B.bf,B.a5U],m))
 n=A.eK(A.cm(n,B.at,B.q,B.y))
 l=d?1:0.45
 l=A.ajZ(new A.rg(f,56,50,i),l)
@@ -52014,7 +52014,7 @@ s.e=null
 s.f=!1},
 $S:0}
 A.aAX.prototype={
-$1(a){return A.aJk(A.b([A.arc(B.a65,new A.aAW(a),null)],t.p),B.a6e,B.a5z)},
+$1(a){return A.aJk(A.b([A.arc(B.a66,new A.aAW(a),null)],t.p),B.a6e,B.a5A)},
 $S:126}
 A.aAW.prototype={
 $0(){var s=this.a
@@ -52051,7 +52051,7 @@ return A.q($async$pc,r)},
 BM(a,b,c,d,e,f){var s=null,r=A.c5(22),q=A.c5(19),p=t.p
 return A.kF(A.mo(!1,s,!0,new A.b1(B.kY,A.d5(A.b([A.ev(s,A.h5(d,B.k,s,31),B.p,s,s,new A.cl(s,s,s,q,s,new A.h6(B.dH,B.d1,B.bO,a,s,s),B.ae),s,62,s,s,s,s,s,62),B.a_4,A.eK(A.cm(A.b([A.aP(c.toUpperCase(),s,s,s,s,A.eC(s,s,B.c.ga1(a),s,s,s,s,s,s,s,s,11,s,s,B.a1,s,s,!0,s,1,s,s,s,s,s,s),s,s),B.n5,A.aP(f,s,s,s,s,B.CV,s,s),B.cV,A.aP(b,s,s,s,s,B.eJ,s,s)],p),B.at,B.q,B.y)),B.MM],p),B.E,B.q,B.y,0),s),s,!0,s,s,s,s,s,s,s,s,s,e,s,s,s,s,s,s,s),B.bA,B.cN,s,s,new A.bU(r,B.o))},
 I(a){var s=this,r=null
-return A.jl(A.lM(r,B.c5,r,r,r,B.a5p),B.c5,A.wK(A.b([A.ev(r,B.IV,B.p,r,r,new A.cl(r,r,r,A.c5(24),r,B.Oj,B.ae),r,r,r,r,B.hZ,r,r,r),B.n4,B.a5x,B.eD,s.BM(B.Rs,"Encontr\xe1 las parejas y complet\xe1 el tablero.","Atenci\xf3n y memoria",B.M7,new A.akk(s,a),"Memoria de palabras"),s.BM(B.Q7,"Tres preguntas para sumar puntos y estrellas.","Reto de preguntas",B.qy,new A.akl(s,a),"Saludos b\xe1sicos"),s.BM(B.R5,"Constru\xed la traducci\xf3n tocando cada palabra.","Arm\xe1 la respuesta",B.lH,new A.akm(s,a),"Palabras en orden"),s.BM(B.Ri,"Prob\xe1 lo que sab\xe9s sobre la fauna.","Explor\xe1 el monte",B.lJ,new A.akn(s,a),"Reto de animales")],t.p),B.KE,B.a_,!1),r,r,r)}}
+return A.jl(A.lM(r,B.c5,r,r,r,B.a5q),B.c5,A.wK(A.b([A.ev(r,B.IV,B.p,r,r,new A.cl(r,r,r,A.c5(24),r,B.Oj,B.ae),r,r,r,r,B.hZ,r,r,r),B.n4,B.a5y,B.eD,s.BM(B.Rs,"Encontr\xe1 las parejas y complet\xe1 el tablero.","Atenci\xf3n y memoria",B.M7,new A.akk(s,a),"Memoria de palabras"),s.BM(B.Q7,"Tres preguntas para sumar puntos y estrellas.","Reto de preguntas",B.qy,new A.akl(s,a),"Saludos b\xe1sicos"),s.BM(B.R5,"Constru\xed la traducci\xf3n tocando cada palabra.","Arm\xe1 la respuesta",B.lH,new A.akm(s,a),"Palabras en orden"),s.BM(B.Ri,"Prob\xe1 lo que sab\xe9s sobre la fauna.","Explor\xe1 el monte",B.lJ,new A.akn(s,a),"Reto de animales")],t.p),B.KE,B.a_,!1),r,r,r)}}
 A.akj.prototype={
 $1(a){return this.a},
 $S:16}
@@ -52180,14 +52180,14 @@ p=A.b([B.cU,r,B.jg,q,B.Ck,A.aP(p==null?"Comunidad Fort\xedn Dragones, Salta":p,m
 if(k){k=n.e
 r=k?m:n.galU()
 k=k?B.Cl:B.ME
-p.push(A.aK5(k,B.a67,r,A.abb(B.Z,m,m,B.bB,B.kV,m)))}else{k=A.h5(B.M2,B.Z,m,m)
+p.push(A.aK5(k,B.a68,r,A.abb(B.Z,m,m,B.bB,B.kV,m)))}else{k=A.h5(B.M2,B.Z,m,m)
 r=n.e
-k=A.kF(A.wI(m,k,m,B.a6h,B.a5s,r?B.n3:m),m,B.bS,m,m,m)
+k=A.kF(A.wI(m,k,m,B.a6h,B.a5t,r?B.n3:m),m,B.bS,m,m,m)
 q=A.aSl(B.qA,B.a5d,r?m:new A.aB6(n,l))
-B.c.L(p,A.b([k,q,A.aSl(B.MQ,B.a5r,r?m:n.gae9())],o))}p.push(B.a_b)
+B.c.L(p,A.b([k,q,A.aSl(B.MQ,B.a5s,r?m:n.gae9())],o))}p.push(B.a_b)
 p.push(A.d5(A.b([A.eK(n.Sb(B.d6,B.il,"Estrellas",B.h.k($.je))),B.n0,A.eK(n.Sb(B.H2,B.M4,"Logros",B.h.k($.oW)))],o),B.E,B.q,B.y,0))
 p.push(B.a_d)
-p.push(B.a5B)
+p.push(B.a5C)
 p.push(B.JE)
 p.push(B.Or)
 return A.jl(s,B.bB,A.TN(A.cm(p,B.bJ,B.q,B.y),m,B.a4,B.fm,m,B.a_),m,m,m)},
@@ -108296,10 +108296,10 @@ B.Gi=new A.AV(null,null,null,null,null,null)
 B.aac=new A.atn(0,"material")
 B.Gs=new A.vr(null,null,null,null,null,null,null,null)
 B.oD=new A.h0(B.H,null,null,B.Gs,null)
-B.a5q=new A.aD("No se pudo cargar el diccionario.",null,null,null,null,null,null,null,null,null)
-B.Gk=new A.h0(B.H,null,null,B.a5q,null)
-B.a62=new A.aD("No pudimos cargar los videos ahora.",null,null,null,null,null,null,null,null,null)
-B.Gl=new A.h0(B.H,null,null,B.a62,null)
+B.a5r=new A.aD("No se pudo cargar el diccionario.",null,null,null,null,null,null,null,null,null)
+B.Gk=new A.h0(B.H,null,null,B.a5r,null)
+B.a63=new A.aD("No pudimos cargar los videos ahora.",null,null,null,null,null,null,null,null,null)
+B.Gl=new A.h0(B.H,null,null,B.a63,null)
 B.qu=new A.b3(983201,"MaterialIcons",!1)
 B.k=new A.t(1,1,1,1,B.f)
 B.MH=new A.bz(B.qu,64,B.k,null,null)
@@ -108307,8 +108307,8 @@ B.Gm=new A.h0(B.H,null,null,B.MH,null)
 B.pe=new A.t(0.6,1,1,1,B.f)
 B.a39=new A.u(!0,B.pe,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.aU=new A.nb(2,"center")
-B.a66=new A.aD("Toc\xe1 las palabras para formar la respuesta",null,B.a39,B.aU,null,null,null,null,null,null)
-B.Gn=new A.h0(B.H,null,null,B.a66,null)
+B.a67=new A.aD("Toc\xe1 las palabras para formar la respuesta",null,B.a39,B.aU,null,null,null,null,null,null)
+B.Gn=new A.h0(B.H,null,null,B.a67,null)
 B.Go=new A.AX(null,null,null,null,null,null,null,null,null)
 B.dU=new A.vn(0,"none")
 B.dV=new A.vn(1,"isTrue")
@@ -108506,9 +108506,9 @@ B.IU=new A.lW(B.a_,B.q,B.y,B.at,null,B.bw,null,0,B.Rn,null)
 B.lL=new A.b3(983484,"MaterialIcons",!1)
 B.MU=new A.bz(B.lL,36,B.k,null,null)
 B.D_=new A.u(!0,null,null,null,null,null,24,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5U=new A.aD("Jug\xe1 y aprend\xe9",null,B.D_,null,null,null,null,null,null,null)
-B.a5W=new A.aD("Retos cortos para practicar a tu manera.",null,B.dz,null,null,null,null,null,null,null)
-B.Po=s([B.MU,B.cU,B.a5U,B.ji,B.a5W],t.p)
+B.a5V=new A.aD("Jug\xe1 y aprend\xe9",null,B.D_,null,null,null,null,null,null,null)
+B.a5X=new A.aD("Retos cortos para practicar a tu manera.",null,B.dz,null,null,null,null,null,null,null)
+B.Po=s([B.MU,B.cU,B.a5V,B.ji,B.a5X],t.p)
 B.IV=new A.lW(B.a_,B.q,B.y,B.at,null,B.bw,null,0,B.Po,null)
 B.pn=new A.vG(0,"none")
 B.kv=new A.vG(1,"waiting")
@@ -108850,21 +108850,21 @@ B.pV=new A.qR(!1,!1,!1,!1)
 B.pW=new A.qR(!1,!1,!1,!0)
 B.db=new A.Pp(0,"tight")
 B.a1F=new A.u(!0,B.k,null,null,null,null,17,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5k=new A.aD("Wichi, tu compa\xf1ero",null,B.a1F,null,null,null,null,null,null,null)
+B.a5l=new A.aD("Wichi, tu compa\xf1ero",null,B.a1F,null,null,null,null,null,null,null)
 B.eI=new A.u(!0,B.hD,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5l=new A.aD("Aprendemos juntos",null,B.eI,null,null,null,null,null,null,null)
-B.Qj=s([B.a5k,B.a5l],t.p)
+B.a5m=new A.aD("Aprendemos juntos",null,B.eI,null,null,null,null,null,null,null)
+B.Qj=s([B.a5l,B.a5m],t.p)
 B.IT=new A.lW(B.a_,B.q,B.y,B.at,null,B.bw,null,0,B.Qj,null)
 B.Lj=new A.m8(1,B.db,B.IT,null)
 B.CV=new A.u(!0,null,null,null,null,null,17,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a60=new A.aD("Aprendemos en comunidad",null,B.CV,null,null,null,null,null,null,null)
+B.a61=new A.aD("Aprendemos en comunidad",null,B.CV,null,null,null,null,null,null,null)
 B.cV=new A.bQ(null,4,null,null)
-B.a5G=new A.aD("Videos compartidos por docentes y referentes.",null,B.dz,null,null,null,null,null,null,null)
-B.Qc=s([B.a60,B.cV,B.a5G],t.p)
+B.a5H=new A.aD("Videos compartidos por docentes y referentes.",null,B.dz,null,null,null,null,null,null,null)
+B.Qc=s([B.a61,B.cV,B.a5H],t.p)
 B.IX=new A.lW(B.a_,B.q,B.y,B.at,null,B.bw,null,0,B.Qc,null)
 B.Lk=new A.m8(1,B.db,B.IX,null)
-B.a68=new A.aD("Un\xed cada palabra con su significado.",null,B.eI,null,null,null,null,null,null,null)
-B.Ll=new A.m8(1,B.db,B.a68,null)
+B.a69=new A.aD("Un\xed cada palabra con su significado.",null,B.eI,null,null,null,null,null,null,null)
+B.Ll=new A.m8(1,B.db,B.a69,null)
 B.Lm=new A.C9(null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.i5=new A.m9(!1,!1,!1,!1)
 B.i6=new A.m9(!1,!1,!1,!0)
@@ -109154,9 +109154,9 @@ B.Oq=new A.rz(4,"bottom")
 B.Ml=new A.b3(983662,"MaterialIcons",!1)
 B.Mv=new A.bz(B.Ml,38,B.Z,null,null)
 B.bY=new A.u(!0,null,null,null,null,null,null,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5S=new A.aD("Defensor Ling\xfc\xedstico",null,B.bY,null,null,null,null,null,null,null)
-B.a5I=new A.aD("Por iniciar el rescate de la variante Wich\xed local.",null,null,null,null,null,null,null,null,null)
-B.Or=new A.Dx(B.Mv,B.a5S,B.a5I,null,B.V,null,null)
+B.a5T=new A.aD("Defensor Ling\xfc\xedstico",null,B.bY,null,null,null,null,null,null,null)
+B.a5J=new A.aD("Por iniciar el rescate de la variante Wich\xed local.",null,null,null,null,null,null,null,null,null)
+B.Or=new A.Dx(B.Mv,B.a5T,B.a5J,null,B.V,null,null)
 B.a83=new A.pA(0,"auto")
 B.a84=new A.pA(1,"contain")
 B.Dr=new A.pA(2,"cover")
@@ -110612,8 +110612,8 @@ B.a5i=new A.aD("Eleg\xed c\xf3mo quer\xe9s seguir",null,B.eI,null,null,null,null
 B.Vn=new A.b1(B.Kc,B.a5i,null)
 B.KS=new A.a5(20,8,20,18)
 B.nj=new A.u(!0,B.hD,null,null,null,null,12,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5D=new A.aD("Gratis para aprender y compartir",null,B.nj,null,null,null,null,null,null,null)
-B.Vo=new A.b1(B.KS,B.a5D,null)
+B.a5E=new A.aD("Gratis para aprender y compartir",null,B.nj,null,null,null,null,null,null,null)
+B.Vo=new A.b1(B.KS,B.a5E,null)
 B.xp=new A.x7(null)
 B.cg=new A.RL(0,"fill")
 B.b4=new A.RL(1,"stroke")
@@ -110663,9 +110663,9 @@ B.Wk=new A.EC(null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.a8e=new A.Hn(null)
 B.XC=new A.Fq(!0,!0,B.V,!1,B.a8e,null)
 B.Wl=new A.ld(null,null,8,82,null,null,B.XC,null)
-B.a6c=new A.aD("Wich\xed F\xe1cil",null,B.D_,null,null,null,null,null,null,null)
-B.a5M=new A.aD("Aprend\xe9, compart\xed y avanz\xe1",null,B.eI,null,null,null,null,null,null,null)
-B.Qt=s([B.a6c,B.a5M],t.p)
+B.a6d=new A.aD("Wich\xed F\xe1cil",null,B.D_,null,null,null,null,null,null,null)
+B.a5N=new A.aD("Aprend\xe9, compart\xed y avanz\xe1",null,B.eI,null,null,null,null,null,null,null)
+B.Qt=s([B.a6d,B.a5N],t.p)
 B.IW=new A.lW(B.a_,B.q,B.y,B.at,null,B.bw,null,0,B.Qt,null)
 B.Wm=new A.ld(20,null,null,14,null,null,B.IW,null)
 B.mq=new A.tg(0,"platformDefault")
@@ -111036,22 +111036,22 @@ B.a5e=new A.aD("Permiso de micr\xf3fono denegado",null,null,null,null,null,null,
 B.a_q=new A.fO(B.a5e,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
 B.a6r=new A.aD("\xa1Grabaci\xf3n finalizada con \xe9xito! \ud83c\udf99\ufe0f",null,null,null,null,null,null,null,null,null)
 B.a_r=new A.fO(B.a6r,B.m8,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
-B.a64=new A.aD("Complet\xe1 la palabra y su traducci\xf3n.",null,null,null,null,null,null,null,null,null)
-B.a_s=new A.fO(B.a64,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
-B.a63=new A.aD("Inici\xe1 sesi\xf3n desde Mi perfil para compartir una palabra.",null,null,null,null,null,null,null,null,null)
-B.a_t=new A.fO(B.a63,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
-B.a5R=new A.aD("No se pudo conectar. Revis\xe1 internet e intent\xe1 de nuevo.",null,null,null,null,null,null,null,null,null)
-B.a_u=new A.fO(B.a5R,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
+B.a65=new A.aD("Complet\xe1 la palabra y su traducci\xf3n.",null,null,null,null,null,null,null,null,null)
+B.a_s=new A.fO(B.a65,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
+B.a64=new A.aD("Inici\xe1 sesi\xf3n desde Mi perfil para compartir una palabra.",null,null,null,null,null,null,null,null,null)
+B.a_t=new A.fO(B.a64,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
+B.a5S=new A.aD("No se pudo conectar. Revis\xe1 internet e intent\xe1 de nuevo.",null,null,null,null,null,null,null,null,null)
+B.a_u=new A.fO(B.a5S,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
 B.a6i=new A.aD("Complet\xe1 la misi\xf3n anterior para seguir por el camino.",null,null,null,null,null,null,null,null,null)
 B.a_v=new A.fO(B.a6i,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
-B.a5t=new A.aD("No se pudo abrir la descarga de la actualizaci\xf3n.",null,null,null,null,null,null,null,null,null)
-B.Cp=new A.fO(B.a5t,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
+B.a5u=new A.aD("No se pudo abrir la descarga de la actualizaci\xf3n.",null,null,null,null,null,null,null,null,null)
+B.Cp=new A.fO(B.a5u,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
 B.a5b=new A.aD("No se pudo abrir la emisora. Intent\xe1 de nuevo m\xe1s tarde.",null,null,null,null,null,null,null,null,null)
 B.a_w=new A.fO(B.a5b,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
-B.a5Z=new A.aD("No se pudo publicar. Revis\xe1 la conexi\xf3n e intent\xe1 de nuevo.",null,null,null,null,null,null,null,null,null)
-B.a_x=new A.fO(B.a5Z,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
-B.a5n=new A.aD("Palabra compartida con la comunidad.",null,null,null,null,null,null,null,null,null)
-B.a_y=new A.fO(B.a5n,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
+B.a6_=new A.aD("No se pudo publicar. Revis\xe1 la conexi\xf3n e intent\xe1 de nuevo.",null,null,null,null,null,null,null,null,null)
+B.a_x=new A.fO(B.a6_,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
+B.a5o=new A.aD("Palabra compartida con la comunidad.",null,null,null,null,null,null,null,null,null)
+B.a_y=new A.fO(B.a5o,null,null,null,null,null,null,null,null,null,null,null,null,B.bC,!1,null,null,null,B.B,null)
 B.Cq=new A.G4(0,"permissive")
 B.a_z=new A.G4(1,"normal")
 B.a_A=new A.G4(2,"forced")
@@ -111469,56 +111469,56 @@ B.D2=new A.u(!0,null,null,null,null,null,21,B.a1,null,null,null,null,null,null,n
 B.a5g=new A.aD("Compart\xed un video para aprender",null,B.D2,null,null,null,null,null,null,null)
 B.a5h=new A.aD("Diccionario comunitario",null,B.bY,null,null,null,null,null,null,null)
 B.a5j=new A.aD("Aprend\xe9 wich\xed",null,B.D3,null,null,null,null,null,null,null)
+B.a1Q=new A.u(!0,B.km,null,null,null,null,12,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
+B.a5k=new A.aD("Se abre el reproductor oficial de cada emisora. Necesit\xe1s conexi\xf3n a internet.",null,B.a1Q,B.aU,null,null,null,null,null,null)
 B.Ia=new A.t(1,0.9607843137254902,0.9607843137254902,0.9607843137254902,B.f)
 B.H3=new A.t(1,0.7411764705882353,0.7411764705882353,0.7411764705882353,B.f)
 B.T7=new A.cn([50,B.p3,100,B.Ia,200,B.kk,300,B.p6,350,B.dX,400,B.H3,500,B.ph,600,B.fd,700,B.dW,800,B.cM,850,B.kn,900,B.oM],t.pl)
 B.Tt=new A.oJ(B.T7,1,0.6196078431372549,0.6196078431372549,0.6196078431372549,B.f)
 B.a1c=new A.u(!0,B.Tt,null,null,null,null,16,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5m=new A.aD("El diccionario comunitario est\xe1 listo.\n\xa1Agreg\xe1 la primera palabra!",null,B.a1c,B.aU,null,null,null,null,null,null)
-B.a5o=new A.aD("Compart\xed un enlace de YouTube para proponer una clase. Los videos aparecen despu\xe9s de revisi\xf3n.",null,B.eJ,B.aU,null,null,null,null,null,null)
-B.a5p=new A.aD("Juegos",null,null,null,null,null,null,null,null,null)
-B.a5r=new A.aD("Cerrar sesi\xf3n",null,null,null,null,null,null,null,null,null)
-B.a5s=new A.aD("Cuenta de Google conectada",null,null,null,null,null,null,null,null,null)
-B.a5u=new A.aD("Ruta de aprendizaje",null,B.D2,null,null,null,null,null,null,null)
-B.a5v=new A.aD("Proponer un video",null,null,null,null,null,null,null,null,null)
+B.a5n=new A.aD("El diccionario comunitario est\xe1 listo.\n\xa1Agreg\xe1 la primera palabra!",null,B.a1c,B.aU,null,null,null,null,null,null)
+B.a5p=new A.aD("Compart\xed un enlace de YouTube para proponer una clase. Los videos aparecen despu\xe9s de revisi\xf3n.",null,B.eJ,B.aU,null,null,null,null,null,null)
+B.a5q=new A.aD("Juegos",null,null,null,null,null,null,null,null,null)
+B.a5s=new A.aD("Cerrar sesi\xf3n",null,null,null,null,null,null,null,null,null)
+B.a5t=new A.aD("Cuenta de Google conectada",null,null,null,null,null,null,null,null,null)
+B.a5v=new A.aD("Ruta de aprendizaje",null,B.D2,null,null,null,null,null,null,null)
+B.a5w=new A.aD("Proponer un video",null,null,null,null,null,null,null,null,null)
 B.a1D=new A.u(!0,B.k,null,null,null,null,16,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5w=new A.aD("Publicar Palabra",null,B.a1D,null,null,null,null,null,null,null)
+B.a5x=new A.aD("Publicar Palabra",null,B.a1D,null,null,null,null,null,null,null)
 B.a3E=new A.u(!0,B.hA,null,null,null,null,null,B.a1,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5x=new A.aD("ELEG\xcd TU DESAF\xcdO",null,B.a3E,null,null,null,null,null,null,null)
-B.a5y=new A.aD("Wich\xed F\xe1cil",null,B.bY,null,null,null,null,null,null,null)
-B.a5z=new A.aD("\xa1Parejas completas!",null,null,null,null,null,null,null,null,null)
+B.a5y=new A.aD("ELEG\xcd TU DESAF\xcdO",null,B.a3E,null,null,null,null,null,null,null)
+B.a5z=new A.aD("Wich\xed F\xe1cil",null,B.bY,null,null,null,null,null,null,null)
+B.a5A=new A.aD("\xa1Parejas completas!",null,null,null,null,null,null,null,null,null)
 B.a0S=new A.u(!0,B.km,null,null,null,null,null,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5A=new A.aD("RUTA DE APRENDIZAJE",null,B.a0S,null,null,null,null,null,null,null)
+B.a5B=new A.aD("RUTA DE APRENDIZAJE",null,B.a0S,null,null,null,null,null,null,null)
 B.nl=new A.u(!0,null,null,null,null,null,20,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5B=new A.aD("Tus medallas",null,B.nl,null,null,null,null,null,null,null)
-B.a5C=new A.aD("Ir a mi perfil",null,null,null,null,null,null,null,null,null)
+B.a5C=new A.aD("Tus medallas",null,B.nl,null,null,null,null,null,null,null)
+B.a5D=new A.aD("Ir a mi perfil",null,null,null,null,null,null,null,null,null)
 B.a1H=new A.u(!0,null,null,null,null,null,26,B.a1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5E=new A.aD("Cada paso cuenta",null,B.a1H,null,null,null,null,null,null,null)
-B.a5F=new A.aD("Enviar para revisi\xf3n",null,null,null,null,null,null,null,null,null)
-B.a5H=new A.aD("Seguir aprendiendo",null,null,null,null,null,null,null,null,null)
-B.a5J=new A.aD("Juego de memoria con palabras",null,B.eI,null,null,null,null,null,null,null)
-B.a5K=new A.aD("Peg\xe1 un enlace p\xfablico de YouTube. Primero lo revisamos y, cuando se apruebe, aparece en la comunidad.",null,B.eJ,null,null,null,null,null,null,null)
-B.a5L=new A.aD("Aprend\xe9 a tu ritmo",null,B.D1,null,null,null,null,null,null,null)
-B.a5N=new A.aD("Las propuestas se env\xedan para revisi\xf3n. Inici\xe1 sesi\xf3n con tu cuenta para identificar qui\xe9n comparte el video.",null,null,null,null,null,null,null,null,null)
-B.a5O=new A.aD("Este espacio espera a las maestras.",null,B.nk,B.aU,null,null,null,null,null,null)
-B.a5P=new A.aD("Diccionario Colaborativo",null,B.CY,null,null,null,null,null,null,null)
-B.a5Q=new A.aD("Aporte Comunitario Real",null,B.CT,B.aU,null,null,null,null,null,null)
-B.a5T=new A.aD("Complet\xe1 la misi\xf3n anterior para desbloquearla",null,B.nj,null,null,null,null,null,null,null)
+B.a5F=new A.aD("Cada paso cuenta",null,B.a1H,null,null,null,null,null,null,null)
+B.a5G=new A.aD("Enviar para revisi\xf3n",null,null,null,null,null,null,null,null,null)
+B.a5I=new A.aD("Seguir aprendiendo",null,null,null,null,null,null,null,null,null)
+B.a5K=new A.aD("Juego de memoria con palabras",null,B.eI,null,null,null,null,null,null,null)
+B.a5L=new A.aD("Peg\xe1 un enlace p\xfablico de YouTube. Primero lo revisamos y, cuando se apruebe, aparece en la comunidad.",null,B.eJ,null,null,null,null,null,null,null)
+B.a5M=new A.aD("Aprend\xe9 a tu ritmo",null,B.D1,null,null,null,null,null,null,null)
+B.a5O=new A.aD("Las propuestas se env\xedan para revisi\xf3n. Inici\xe1 sesi\xf3n con tu cuenta para identificar qui\xe9n comparte el video.",null,null,null,null,null,null,null,null,null)
+B.a5P=new A.aD("Este espacio espera a las maestras.",null,B.nk,B.aU,null,null,null,null,null,null)
+B.a5Q=new A.aD("Diccionario Colaborativo",null,B.CY,null,null,null,null,null,null,null)
+B.a5R=new A.aD("Aporte Comunitario Real",null,B.CT,B.aU,null,null,null,null,null,null)
+B.a5U=new A.aD("Complet\xe1 la misi\xf3n anterior para desbloquearla",null,B.nj,null,null,null,null,null,null,null)
 B.a4n=new A.u(!0,B.R,null,null,null,null,12,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a5V=new A.aD("Las palabras se comparten en l\xednea. Las fotos y grabaciones no se sincronizan todav\xeda.",null,B.a4n,B.aU,null,null,null,null,null,null)
-B.a5X=new A.aD("Ahora no",null,null,null,null,null,null,null,null,null)
-B.a5Y=new A.aD("Tus objetivos",null,B.nl,null,null,null,null,null,null,null)
+B.a5W=new A.aD("Las palabras se comparten en l\xednea. Las fotos y grabaciones no se sincronizan todav\xeda.",null,B.a4n,B.aU,null,null,null,null,null,null)
+B.a5Y=new A.aD("Ahora no",null,null,null,null,null,null,null,null,null)
+B.a5Z=new A.aD("Tus objetivos",null,B.nl,null,null,null,null,null,null,null)
 B.D6=new A.u(!0,null,null,null,null,null,null,B.a1,null,0.6,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a6_=new A.aD("CONTINUAR",null,B.D6,null,null,null,null,null,null,null)
-B.a61=new A.aD("Eleg\xed una misi\xf3n, practic\xe1 y volv\xe9 cuando quieras.",null,B.h9,null,null,null,null,null,null,null)
+B.a60=new A.aD("CONTINUAR",null,B.D6,null,null,null,null,null,null,null)
+B.a62=new A.aD("Eleg\xed una misi\xf3n, practic\xe1 y volv\xe9 cuando quieras.",null,B.h9,null,null,null,null,null,null,null)
 B.D7=new A.aD("Aprend\xe9 paso a paso",null,null,null,null,null,null,null,null,null)
-B.a65=new A.aD("Seguir jugando",null,null,null,null,null,null,null,null,null)
-B.a67=new A.aD("Guardar mi progreso con Google",null,null,null,null,null,null,null,null,null)
-B.a69=new A.aD("COMPROBAR",null,B.D6,null,null,null,null,null,null,null)
-B.a6a=new A.aD("Consult\xe1 palabras, fotos y grabaciones",null,B.h9,null,null,null,null,null,null,null)
-B.a6b=new A.aD("Ingres\xe1 para compartir",null,null,null,null,null,null,null,null,null)
-B.a1Q=new A.u(!0,B.km,null,null,null,null,12,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.a6d=new A.aD("La reproducci\xf3n se abre en el sitio de cada emisora y necesita conexi\xf3n a internet.",null,B.a1Q,B.aU,null,null,null,null,null,null)
+B.a66=new A.aD("Seguir jugando",null,null,null,null,null,null,null,null,null)
+B.a68=new A.aD("Guardar mi progreso con Google",null,null,null,null,null,null,null,null,null)
+B.a6a=new A.aD("COMPROBAR",null,B.D6,null,null,null,null,null,null,null)
+B.a6b=new A.aD("Consult\xe1 palabras, fotos y grabaciones",null,B.h9,null,null,null,null,null,null,null)
+B.a6c=new A.aD("Ingres\xe1 para compartir",null,null,null,null,null,null,null,null,null)
 B.a6e=new A.aD("Relacionaste las palabras con sus significados. Ganaste 30 estrellas.",null,null,null,null,null,null,null,null,null)
 B.a6f=new A.aD("\xa1Lecci\xf3n terminada! \ud83c\udf89",null,null,null,null,null,null,null,null,null)
 B.a6h=new A.aD("El avance se guarda en este dispositivo y en tu cuenta.",null,null,null,null,null,null,null,null,null)
