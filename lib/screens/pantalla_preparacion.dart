@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../models/estado_asistente.dart';
 import '../quiz_data.dart';
-import 'pantalla_inicio.dart';
+import '../widgets/zorro_asistente.dart';
+import 'navegacion_principal.dart';
 
 class PantallaPreparacion extends StatefulWidget {
   const PantallaPreparacion({super.key});
@@ -27,19 +29,35 @@ class _PantallaPreparacionState extends State<PantallaPreparacion> {
   int? _dias;
   bool _guardando = false;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        ContextoLocalZorro.emitirEvento(EventoZorro.preparationStarted);
+      }
+    });
+  }
   Future<void> _continuar() async {
     if (_paso == 0) {
       if (_motivo == null) return;
       setState(() => _paso = 1);
+      ContextoLocalZorro.emitirEvento(
+        EventoZorro.goalStepOpened,
+        detalle: _motivo!,
+      );
       return;
     }
     if (_dias == null || _guardando) return;
     setState(() => _guardando = true);
     await PerfilUsuario.guardarPreparacion(motivo: _motivo!, diasMeta: _dias!);
     if (!mounted) return;
+    ContextoLocalZorro.emitirEvento(
+      EventoZorro.preparationCompleted,
+    );
     Navigator.pushReplacement<void, void>(
       context,
-      MaterialPageRoute<void>(builder: (_) => const PantallaInicio()),
+      MaterialPageRoute<void>(builder: (_) => const NavegacionPrincipal()),
     );
   }
 
@@ -120,7 +138,13 @@ class _PantallaPreparacionState extends State<PantallaPreparacion> {
                         icono: opcion.$3,
                         titulo: opcion.$1,
                         detalle: opcion.$2,
-                        alTocar: () => setState(() => _motivo = opcion.$1),
+                        alTocar: () {
+                          setState(() => _motivo = opcion.$1);
+                          ContextoLocalZorro.emitirEvento(
+                            EventoZorro.motivationSelected,
+                            detalle: opcion.$1,
+                          );
+                        },
                       )
                   else
                     for (final opcion in [(3, 'Tranquila', '3 días por semana'), (5, 'Constante', '5 días por semana'), (7, 'Todos los días', '7 días por semana')])
@@ -129,7 +153,13 @@ class _PantallaPreparacionState extends State<PantallaPreparacion> {
                         icono: Icons.local_fire_department_rounded,
                         titulo: opcion.$2,
                         detalle: opcion.$3,
-                        alTocar: () => setState(() => _dias = opcion.$1),
+                        alTocar: () {
+                          setState(() => _dias = opcion.$1);
+                          ContextoLocalZorro.emitirEvento(
+                            EventoZorro.weeklyGoalSelected,
+                            detalle: '${opcion.$1} días por semana',
+                          );
+                        },
                       ),
                 ],
               ),

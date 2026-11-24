@@ -25,5 +25,29 @@ service cloud.firestore {
         && request.resource.data.verificado == false;
       allow update, delete: if false;
     }
+    match /videos_docentes/{videoId} {
+      allow read: if resource.data.estado == 'publicado';
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly([
+          'titulo', 'descripcion', 'videoUrl', 'docente', 'autorUid', 'estado', 'creadoEn'
+        ])
+        && request.resource.data.titulo is string
+        && request.resource.data.titulo.size() > 0
+        && request.resource.data.titulo.size() <= 90
+        && request.resource.data.descripcion is string
+        && request.resource.data.descripcion.size() <= 240
+        && request.resource.data.docente is string
+        && request.resource.data.docente.size() > 0
+        && request.resource.data.docente.size() <= 120
+        && request.resource.data.autorUid == request.auth.uid
+        && request.resource.data.estado == 'pendiente'
+        && request.resource.data.creadoEn == request.time
+        && request.resource.data.videoUrl is string
+        && request.resource.data.videoUrl.size() <= 600
+        && (request.resource.data.videoUrl.matches('https://(www[.])?youtube[.]com/.*')
+          || request.resource.data.videoUrl.matches('https://(www[.])?youtu[.]be/.*')
+          || request.resource.data.videoUrl.matches('https://m[.]youtube[.]com/.*'));
+      allow update, delete: if false;
+    }
   }
 }

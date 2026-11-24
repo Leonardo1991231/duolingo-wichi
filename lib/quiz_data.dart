@@ -65,14 +65,16 @@ List<Question> animalesQuestions = [
 // Estructura para el juego infantil de tarjetas
 class TarjetaJuego {
   final String palabra;
+  final String idPareja;
   bool estaVolteada;
   bool estaEmparejada;
 
   TarjetaJuego({
     required this.palabra,
+    String? idPareja,
     this.estaVolteada = false,
     this.estaEmparejada = false,
-  });
+  }) : idPareja = idPareja ?? palabra;
 }
 
 // El avance se conserva localmente y, cuando hay sesión, también en Firestore.

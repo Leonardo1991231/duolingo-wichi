@@ -37,7 +37,7 @@ class WichiFacilApp extends StatelessWidget {
           child ?? const SizedBox.shrink(),
           const Positioned(
             right: 8,
-            bottom: 8,
+            bottom: 82,
             child: SafeArea(child: ZorroAsistente()),
           ),
         ],

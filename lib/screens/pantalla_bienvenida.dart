@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../quiz_data.dart';
-import 'pantalla_inicio.dart';
+import 'navegacion_principal.dart';
 import 'pantalla_preparacion.dart';
 
 class PantallaBienvenida extends StatelessWidget {
@@ -11,7 +11,7 @@ class PantallaBienvenida extends StatelessWidget {
 
   void _continuar(BuildContext context) {
     final destino = PerfilUsuario.preparacionCompleta
-        ? const PantallaInicio()
+        ? const NavegacionPrincipal()
         : const PantallaPreparacion();
     Navigator.pushReplacement<void, void>(
       context,

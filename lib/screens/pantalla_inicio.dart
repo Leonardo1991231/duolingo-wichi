@@ -7,6 +7,8 @@ import '../widgets/zorro_asistente.dart';
 import 'pantalla_diccionario.dart';
 import 'pantalla_ejercicio.dart';
 import 'pantalla_juego_infantil.dart';
+import 'pantalla_comunidad.dart';
+import 'pantalla_juegos.dart';
 import 'pantalla_perfil.dart';
 
 class PantallaInicio extends StatefulWidget {
@@ -98,113 +100,170 @@ class _PantallaInicioState extends State<PantallaInicio> {
     }
   }
 
-  Widget _crearMenu() {
-    return Drawer(
-      backgroundColor: _fondo,
-      child: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 185,
-              width: double.infinity,
-              child: Stack(
-                fit: StackFit.expand,
+  Future<void> _abrirExperiencia(Widget pantalla) async {
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(builder: (_) => pantalla),
+    );
+    if (mounted) setState(() {});
+  }
+
+  Widget _tarjetaExperiencia({
+    required String titulo,
+    required String detalle,
+    required IconData icono,
+    required List<Color> colores,
+    required VoidCallback alTocar,
+  }) {
+    return SizedBox(
+      width: 154,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: InkWell(
+          onTap: alTocar,
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: colores,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(
-                    'assets/images/caratula.png',
-                    fit: BoxFit.contain,
-                  ),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, _fondo.withOpacity(0.96)],
-                      ),
-                    ),
-                  ),
-                  const Positioned(
-                    left: 20,
-                    bottom: 14,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Wichí Fácil',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'Aprendé, compartí y avanzá',
-                          style: TextStyle(color: _textoSuave),
-                        ),
-                      ],
-                    ),
+                  Icon(icono, color: Colors.white, size: 30),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(titulo, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      const SizedBox(height: 3),
+                      Text(detalle, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                    ],
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 8),
-            _opcionMenu(
-              icono: Icons.map_rounded,
-              titulo: 'Mapa de misiones',
-              subtitulo: 'Seguí aprendiendo paso a paso',
-              accion: () => Navigator.pop(context),
-            ),
-            _opcionMenu(
-              icono: Icons.menu_book_rounded,
-              titulo: 'Diccionario comunitario',
-              subtitulo: 'Consultá y agregá palabras, fotos o audios',
-              accion: () {
-                Navigator.pop(context);
-                _abrirDiccionario();
-              },
-            ),
-            _opcionMenu(
-              icono: Icons.sync_rounded,
-              titulo: 'Sincronizar diccionario',
-              subtitulo: 'Traé las palabras más recientes',
-              accion: () {
-                Navigator.pop(context);
-                _abrirDiccionario(sincronizarAhora: true);
-              },
-            ),
-            _opcionMenu(
-              icono: Icons.extension_rounded,
-              titulo: 'Rincón infantil',
-              subtitulo: 'Jugá a encontrar las parejas',
-              accion: () {
-                Navigator.pop(context);
-                _abrirJuego();
-              },
-            ),
-            _opcionMenu(
-              icono: Icons.system_update_alt_rounded,
-              titulo: 'Actualizar aplicación',
-              subtitulo: 'Descargá la última versión',
-              accion: _actualizarAplicacion,
-            ),
-            _opcionMenu(
-              icono: Icons.account_circle_rounded,
-              titulo: 'Mi perfil y progreso',
-              subtitulo: 'Estrellas, resultados y logros',
-              accion: () {
-                Navigator.pop(context);
-                _abrirPerfil();
-              },
-            ),
-            const Spacer(),
-            const Divider(color: Colors.white12, indent: 18, endIndent: 18),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 8, 20, 18),
-              child: Text(
-                'Gratis para aprender y compartir',
-                style: TextStyle(color: _textoSuave, fontSize: 12),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _crearMenu() {
+    return Drawer(
+      backgroundColor: _fondo,
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 185,
+                width: double.infinity,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      'assets/images/caratula.png',
+                      fit: BoxFit.contain,
+                    ),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, _fondo.withOpacity(0.96)],
+                        ),
+                      ),
+                    ),
+                    const Positioned(
+                      left: 20,
+                      bottom: 14,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Wichí Fácil',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Aprendé, compartí y avanzá',
+                            style: TextStyle(color: _textoSuave),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              _opcionMenu(
+                icono: Icons.map_rounded,
+                titulo: 'Ruta de aprendizaje',
+                subtitulo: 'Seguí aprendiendo paso a paso',
+                accion: () => Navigator.pop(context),
+              ),
+              _opcionMenu(
+                icono: Icons.menu_book_rounded,
+                titulo: 'Diccionario comunitario',
+                subtitulo: 'Consultá y agregá palabras, fotos o audios',
+                accion: () {
+                  Navigator.pop(context);
+                  _abrirDiccionario();
+                },
+              ),
+              _opcionMenu(
+                icono: Icons.sync_rounded,
+                titulo: 'Sincronizar diccionario',
+                subtitulo: 'Traé las palabras más recientes',
+                accion: () {
+                  Navigator.pop(context);
+                  _abrirDiccionario(sincronizarAhora: true);
+                },
+              ),
+              _opcionMenu(
+                icono: Icons.extension_rounded,
+                titulo: 'Rincón infantil',
+                subtitulo: 'Jugá a encontrar las parejas',
+                accion: () {
+                  Navigator.pop(context);
+                  _abrirJuego();
+                },
+              ),
+              _opcionMenu(
+                icono: Icons.system_update_alt_rounded,
+                titulo: 'Actualizar aplicación',
+                subtitulo: 'Descargá la última versión',
+                accion: _actualizarAplicacion,
+              ),
+              _opcionMenu(
+                icono: Icons.account_circle_rounded,
+                titulo: 'Mi perfil y progreso',
+                subtitulo: 'Estrellas, resultados y logros',
+                accion: () {
+                  Navigator.pop(context);
+                  _abrirPerfil();
+                },
+              ),
+              const SizedBox(height: 8),
+              const Divider(color: Colors.white12, indent: 18, endIndent: 18),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(20, 8, 20, 18),
+                child: Text(
+                  'Gratis para aprender y compartir',
+                  style: TextStyle(color: _textoSuave, fontSize: 12),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -285,7 +344,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(18, 8, 18, 140),
+        padding: const EdgeInsets.fromLTRB(18, 8, 18, 28),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -307,7 +366,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          '¡Vamos a aprender!',
+                          'Aprendé wichí',
                           style: TextStyle(
                             fontSize: 23,
                             fontWeight: FontWeight.bold,
@@ -316,7 +375,7 @@ class _PantallaInicioState extends State<PantallaInicio> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Seguí el camino y descubrí nuevas palabras en Wichí.',
+                          'Desde cero, con respeto. Seguí el camino y descubrí nuevas palabras.',
                           style: TextStyle(
                             color: Colors.white.withOpacity(0.82),
                           ),
@@ -380,9 +439,44 @@ class _PantallaInicioState extends State<PantallaInicio> {
                 ],
               ),
             ),
-            const SizedBox(height: 26),
+            const SizedBox(height: 22),
             const Text(
-              'Mapa de misiones',
+              'Explorá algo nuevo',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 138,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  _tarjetaExperiencia(
+                    titulo: 'Juegos',
+                    detalle: 'Retos y memoria',
+                    icono: Icons.sports_esports_rounded,
+                    colores: const [Color(0xFF8E52CB), Color(0xFFD34E8C)],
+                    alTocar: () => _abrirExperiencia(const PantallaJuegos()),
+                  ),
+                  _tarjetaExperiencia(
+                    titulo: 'Videos',
+                    detalle: 'Clases de maestras',
+                    icono: Icons.smart_display_rounded,
+                    colores: const [Color(0xFF187CA1), Color(0xFF25B5A0)],
+                    alTocar: () => _abrirExperiencia(const PantallaComunidad()),
+                  ),
+                  _tarjetaExperiencia(
+                    titulo: 'Radios',
+                    detalle: 'Voces del norte',
+                    icono: Icons.radio_rounded,
+                    colores: const [Color(0xFFE08A42), Color(0xFFD55361)],
+                    alTocar: () => _abrirExperiencia(const PantallaComunidad(initialTab: 1)),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 22),
+            const Text(
+              'Ruta de aprendizaje',
               style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 4),
