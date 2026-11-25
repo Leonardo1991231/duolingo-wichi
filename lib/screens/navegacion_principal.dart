@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../models/estado_asistente.dart';
 import '../quiz_data.dart';
+import '../widgets/zorro_asistente.dart';
 import 'pantalla_comunidad.dart';
 import 'pantalla_diccionario.dart';
 import 'pantalla_ejercicio.dart';
@@ -19,6 +21,47 @@ class _NavegacionPrincipalState extends State<NavegacionPrincipal> {
   final _claves = List<GlobalKey<NavigatorState>>.generate(5, (_) => GlobalKey<NavigatorState>());
   final _creadas = <bool>[true, false, false, false, false];
 
+  @override
+  void initState() {
+    super.initState();
+    ContextoLocalZorro.cambiarSeccion = _irASeccion;
+  }
+
+  @override
+  void dispose() {
+    ContextoLocalZorro.cambiarSeccion = null;
+    super.dispose();
+  }
+
+  void _irASeccion(int indice) {
+    if (indice < 0 || indice >= _claves.length) return;
+    if (indice == _tab) {
+      _claves[indice].currentState?.popUntil((route) => route.isFirst);
+      return;
+    }
+
+    setState(() {
+      _creadas[indice] = true;
+      _tab = indice;
+    });
+    ContextoLocalZorro.seccionActual = indice;
+    if (indice == 0) {
+      ContextoLocalZorro.entrarInicio();
+      return;
+    }
+
+    final seccion = switch (indice) {
+      1 => 'lecciones',
+      2 => 'juegos',
+      3 => 'comunidad',
+      _ => 'progreso',
+    };
+    ContextoLocalZorro.emitirEvento(
+      EventoZorro.sectionOpened,
+      detalle: seccion,
+    );
+  }
+
   Widget _pantalla(int indice) => switch (indice) {
     0 => const PantallaInicio(),
     1 => const _Lecciones(),
@@ -29,30 +72,34 @@ class _NavegacionPrincipalState extends State<NavegacionPrincipal> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: IndexedStack(
-      index: _tab,
-      children: List<Widget>.generate(5, (indice) {
-        if (!_creadas[indice]) return const SizedBox.shrink();
-        return Navigator(
-          key: _claves[indice],
-          onGenerateRoute: (_) => MaterialPageRoute<void>(builder: (_) => _pantalla(indice)),
-        );
-      }),
+    body: Stack(
+      children: [
+        Positioned.fill(
+          child: IndexedStack(
+            index: _tab,
+            children: List<Widget>.generate(5, (indice) {
+              if (!_creadas[indice]) return const SizedBox.shrink();
+              return Navigator(
+                key: _claves[indice],
+                onGenerateRoute: (_) => MaterialPageRoute<void>(builder: (_) => _pantalla(indice)),
+              );
+            }),
+          ),
+        ),
+        if (_tab != 0)
+          const Positioned(
+            right: 8,
+            bottom: 10,
+            child: SafeArea(child: ZorroAsistente()),
+          ),
+      ],
     ),
     bottomNavigationBar: NavigationBar(
       selectedIndex: _tab,
       backgroundColor: const Color(0xFF10243D),
       indicatorColor: const Color(0xFF17405A),
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-      onDestinationSelected: (indice) {
-        if (indice == _tab) {
-          _claves[indice].currentState?.popUntil((route) => route.isFirst);
-        }
-        setState(() {
-          _creadas[indice] = true;
-          _tab = indice;
-        });
-      },
+      onDestinationSelected: _irASeccion,
       destinations: const [
         NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home_rounded), label: 'Inicio'),
         NavigationDestination(icon: Icon(Icons.menu_book_outlined), selectedIcon: Icon(Icons.menu_book_rounded), label: 'Aprender'),

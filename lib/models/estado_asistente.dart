@@ -7,6 +7,7 @@ enum EventoZorro {
   goalStepOpened,
   weeklyGoalSelected,
   preparationCompleted,
+  sectionOpened,
   activityStarted,
   correctAnswer,
   incorrectAnswer,

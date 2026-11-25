@@ -11,6 +11,8 @@ final GlobalKey<NavigatorState> zorroNavigatorKey = GlobalKey<NavigatorState>();
 
 /// Contexto y eventos locales del zorro. No envía datos fuera de la app.
 class ContextoLocalZorro {
+  static int seccionActual = 0;
+  static void Function(int)? cambiarSeccion;
   static bool hayLeccion = false;
   static String nombreModulo = '';
   static String consigna = '';
@@ -95,9 +97,6 @@ class _ZorroAsistenteState extends State<ZorroAsistente>
     super.initState();
     _reaccion = ContextoLocalZorro.reacciones.value;
     ContextoLocalZorro.reacciones.addListener(_actualizarReaccion);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) ContextoLocalZorro.emitirEvento(EventoZorro.appOpened);
-    });
   }
 
   void _actualizarReaccion() {
@@ -230,31 +229,106 @@ class _ChatZorro extends StatefulWidget {
 
 class _ChatZorroState extends State<_ChatZorro> {
   final _lista = ScrollController();
-  final List<_MensajeLocal> _mensajes = <_MensajeLocal>[
-    const _MensajeLocal(
-      texto: '¡Hola! Estoy acá para acompañarte. ¿Qué necesitás?',
-      esEstudiante: false,
-    ),
-  ];
-  List<String> _opciones = const [
-    'Ayudame con esta misión',
-    '¿Cómo voy?',
-    'Dame ánimo',
-  ];
+  final _entrada = TextEditingController();
+  late final List<_MensajeLocal> _mensajes;
+  late List<String> _opciones;
+
+  @override
+  void initState() {
+    super.initState();
+    _mensajes = [
+      _MensajeLocal(texto: _saludoInicial(), esEstudiante: false),
+    ];
+    _opciones = _opcionesIniciales();
+  }
 
   @override
   void dispose() {
     _lista.dispose();
+    _entrada.dispose();
     super.dispose();
   }
 
+  String _saludoInicial() {
+    switch (ContextoLocalZorro.seccionActual) {
+      case 1:
+        if (ContextoLocalZorro.hayLeccion) {
+          return 'Estás con ${ContextoLocalZorro.nombreModulo}. Puedo ayudarte a entender la consigna o darte una pista.';
+        }
+        return 'Estás en Aprender. Elegí una misión y te ayudo con la consigna, una pista o el resultado.';
+      case 2:
+        return 'Estás en Jugar. Los juegos sirven para repasar las palabras sin apuro. ¿Querés una recomendación?';
+      case 3:
+        return 'Estás en Comunidad. Acá podés explorar videos y la radio. También te puedo llevar a una lección.';
+      case 4:
+        final completadas = PerfilUsuario.leccionesCompletadas.length;
+        return 'Tu avance: $completadas de 2 misiones y ${PerfilUsuario.estrellasTotales} estrellas. ¿Vemos cuál es el próximo paso?';
+      default:
+        return 'Estoy acá para ayudarte a estudiar, jugar o revisar tu progreso.';
+    }
+  }
+
+  List<String> _opcionesIniciales() {
+    switch (ContextoLocalZorro.seccionActual) {
+      case 1:
+        if (!ContextoLocalZorro.hayLeccion) {
+          return const ['Empezar una misión', '¿Cómo voy?', 'Dame ánimo', 'Ver progreso'];
+        }
+        return ContextoLocalZorro.respuestaComprobada
+            ? const ['Explicame mi resultado', 'Dame ánimo', '¿Qué me falta?', 'Ver progreso']
+            : const ['Ayudame con esta misión', 'Dame una pista', '¿Cómo voy?', 'Ver progreso'];
+      case 2:
+        return const ['Recomendame un juego', '¿Cómo voy?', 'Llevame a estudiar', 'Ver progreso'];
+      case 3:
+        return const ['¿Qué puedo hacer acá?', 'Llevame a estudiar', 'Ver progreso', '¿Cómo voy?'];
+      case 4:
+        return const ['¿Qué me falta?', 'Llevame a estudiar', 'Dame ánimo', 'Volver a la app'];
+      default:
+        return const ['Llevame a estudiar', '¿Cómo voy?', 'Dame ánimo'];
+    }
+  }
+
+  int? _destinoDeAccion(String opcion) => switch (opcion) {
+    'Empezar una misión' || 'Llevame a estudiar' || 'Llevame a Aprender' => 1,
+    'Llevame a Jugar' || 'Abrir el juego de memoria' => 2,
+    'Ver progreso' || 'Abrir progreso' => 4,
+    _ => null,
+  };
+
   void _responder(String opcion) {
+    if (opcion == 'Volver a la app') {
+      Navigator.of(context).pop();
+      return;
+    }
+    final destino = _destinoDeAccion(opcion);
+    if (destino != null) {
+      ContextoLocalZorro.cambiarSeccion?.call(destino);
+      Navigator.of(context).pop();
+      return;
+    }
+    _agregarIntercambio(
+      opcion,
+      _respuestaPara(opcion),
+      opcion: opcion,
+    );
+  }
+
+  void _enviarTexto() {
+    final texto = _entrada.text.trim();
+    if (texto.isEmpty) return;
+    _entrada.clear();
+    _agregarIntercambio(texto, _respuestaLibre(texto));
+  }
+
+  void _agregarIntercambio(
+    String texto,
+    String respuesta, {
+    String? opcion,
+  }) {
     setState(() {
-      _mensajes.add(_MensajeLocal(texto: opcion, esEstudiante: true));
-      _mensajes.add(
-        _MensajeLocal(texto: _respuestaPara(opcion), esEstudiante: false),
-      );
-      _opciones = _opcionesSiguientes(opcion);
+      _mensajes.add(_MensajeLocal(texto: texto, esEstudiante: true));
+      _mensajes.add(_MensajeLocal(texto: respuesta, esEstudiante: false));
+      if (opcion != null) _opciones = _opcionesSiguientes(opcion);
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_lista.hasClients) {
@@ -267,26 +341,91 @@ class _ChatZorroState extends State<_ChatZorro> {
     });
   }
 
+  String _respuestaLibre(String texto) {
+    final pregunta = texto
+        .toLowerCase()
+        .replaceAll('á', 'a')
+        .replaceAll('é', 'e')
+        .replaceAll('í', 'i')
+        .replaceAll('ó', 'o')
+        .replaceAll('ú', 'u');
+
+    if (pregunta.contains('hola') || pregunta.contains('buen dia')) {
+      return '¡Hola! Me alegra que estés acá. ¿Seguimos con una misión o querés revisar tu avance?';
+    }
+    if (pregunta.contains('progreso') ||
+        pregunta.contains('avance') ||
+        pregunta.contains('racha') ||
+        pregunta.contains('estrella') ||
+        pregunta.contains('como voy')) {
+      return _respuestaPara('¿Cómo voy?');
+    }
+    if (pregunta.contains('falta') || pregunta.contains('siguiente')) {
+      return _respuestaPara('¿Qué me falta?');
+    }
+    if (pregunta.contains('pista') ||
+        pregunta.contains('ayuda') ||
+        pregunta.contains('entiendo') ||
+        pregunta.contains('consigna')) {
+      return _respuestaPara('Dame una pista');
+    }
+    if (pregunta.contains('juego') || pregunta.contains('jugar')) {
+      return _respuestaPara('Recomendame un juego');
+    }
+    if (pregunta.contains('radio') ||
+        pregunta.contains('video') ||
+        pregunta.contains('comunidad')) {
+      return _respuestaPara('¿Qué puedo hacer acá?');
+    }
+    if (pregunta.contains('gracias')) {
+      return '¡De nada! Vamos paso a paso. Si querés, seguimos con otra misión.';
+    }
+    if (ContextoLocalZorro.seccionActual == 1 &&
+        ContextoLocalZorro.hayLeccion &&
+        ContextoLocalZorro.respuestaComprobada) {
+      return _explicarResultado();
+    }
+    return 'Te puedo ayudar con una misión, darte una pista, recomendarte un juego o contarte cómo va tu progreso. ¿Qué necesitás ahora?';
+  }
+
   String _respuestaPara(String opcion) {
     switch (opcion) {
       case 'Ayudame con esta misión':
-        if (!ContextoLocalZorro.hayLeccion) {
-          return 'Abrí una misión del mapa y te acompaño paso a paso. También puedo contarte cómo va tu progreso.';
+        if (ContextoLocalZorro.seccionActual != 1 ||
+            !ContextoLocalZorro.hayLeccion) {
+          return 'Abrí una misión de la lista. Cuando empiece, voy a tener la consigna para darte una ayuda más precisa.';
         }
         if (ContextoLocalZorro.respuestaComprobada) {
           return _explicarResultado();
         }
         return '${ContextoLocalZorro.consigna} ${ContextoLocalZorro.pregunta}. Leé la consigna con calma y fijate qué te está pidiendo. Puedo darte una pista sin revelar la respuesta.';
       case 'Dame una pista':
-        if (!ContextoLocalZorro.hayLeccion) {
+        if (ContextoLocalZorro.seccionActual != 1 ||
+            !ContextoLocalZorro.hayLeccion) {
           return 'En una misión, buscá las palabras clave de la consigna y comparalas con las opciones. Descartá primero las que no se relacionan.';
         }
         if (ContextoLocalZorro.respuestaComprobada) {
           return _explicarResultado();
         }
-        return 'Pista: pensá qué significado te pide la consigna y comparalo con cada opción. Descartá las que no responden a la pregunta. ¡Vos podés!';
+        final consigna = ContextoLocalZorro.consigna.trim();
+        final pregunta = ContextoLocalZorro.pregunta.trim();
+        return 'Pista para «$pregunta»: $consigna Pensá qué tipo de respuesta busca y descartá las opciones que no encajan. ¡Vamos paso a paso!';
+      case '¿Qué me falta?':
+        final completadas = PerfilUsuario.leccionesCompletadas.length;
+        if (completadas >= 2) {
+          return 'Ya completaste las dos misiones disponibles. ¡Buen trabajo! Podés repasarlas desde Aprender o practicar en Jugar.';
+        }
+        final siguiente = PerfilUsuario.leccionCompletada('Módulo 1: Saludos')
+            ? 'Animales del monte'
+            : 'Saludos básicos';
+        return 'Completaste $completadas de 2 misiones. El próximo paso es «$siguiente». Si querés, te llevo a Aprender.';
+      case 'Recomendame un juego':
+        return 'Te recomiendo el juego de memoria para relacionar palabras con sus significados. Si preferís practicar preguntas, también está el desafío de saludos.';
+      case '¿Qué puedo hacer acá?':
+        return 'En Comunidad podés ver los videos compartidos y escuchar Radio Nacional Tartagal. Para practicar palabras, te llevo a Aprender.';
       case 'Explicame mi resultado':
-        if (!ContextoLocalZorro.hayLeccion ||
+        if (ContextoLocalZorro.seccionActual != 1 ||
+            !ContextoLocalZorro.hayLeccion ||
             !ContextoLocalZorro.respuestaComprobada) {
           return 'Cuando elijas una respuesta y toques COMPROBAR, puedo ayudarte a repasar el resultado.';
         }
@@ -296,14 +435,12 @@ class _ChatZorroState extends State<_ChatZorro> {
         final racha = PerfilUsuario.rachaVigente;
         return 'Tenés ${PerfilUsuario.estrellasTotales} estrellas y completaste $lecciones misiones. ${racha == 0 ? '¡Hoy podés empezar una racha!' : 'Llevás $racha ${racha == 1 ? 'día' : 'días'} de racha.'}';
       case 'Dame ánimo':
-        return ContextoLocalZorro.hayLeccion &&
+        return ContextoLocalZorro.seccionActual == 1 &&
+                ContextoLocalZorro.hayLeccion &&
                 ContextoLocalZorro.respuestaComprobada &&
                 !ContextoLocalZorro.respuestaFueCorrecta
             ? 'Equivocarse también ayuda a aprender. Ya conocés la respuesta correcta; probemos la siguiente con calma.'
             : '¡Vas muy bien! Cada intento cuenta. Seguí a tu ritmo; yo te acompaño.';
-      case 'Volver a la app':
-        Navigator.of(context).pop();
-        return '¡Sigamos aprendiendo!';
       default:
         return 'Estoy acá para ayudarte con la misión, darte una pista o contarte cómo va tu progreso.';
     }
@@ -317,6 +454,15 @@ class _ChatZorroState extends State<_ChatZorro> {
   }
 
   List<String> _opcionesSiguientes(String opcion) {
+    if (opcion == 'Recomendame un juego') {
+      return const ['Abrir el juego de memoria', 'Llevame a Aprender', 'Volver a la app'];
+    }
+    if (opcion == '¿Qué me falta?') {
+      return const ['Llevame a estudiar', 'Dame ánimo', '¿Cómo voy?', 'Volver a la app'];
+    }
+    if (opcion == '¿Qué puedo hacer acá?') {
+      return const ['Llevame a Aprender', '¿Cómo voy?', 'Volver a la app'];
+    }
     if (opcion == 'Ayudame con esta misión') {
       return const ['Dame una pista', 'Explicame mi resultado', '¿Cómo voy?', 'Volver a la app'];
     }
@@ -324,7 +470,7 @@ class _ChatZorroState extends State<_ChatZorro> {
       return const ['Ayudame con esta misión', 'Explicame mi resultado', 'Dame ánimo', 'Volver a la app'];
     }
     if (opcion == '¿Cómo voy?') {
-      return const ['Ayudame con esta misión', 'Dame ánimo', 'Volver a la app'];
+      return const ['¿Qué me falta?', 'Llevame a estudiar', 'Dame ánimo', 'Volver a la app'];
     }
     return const ['Dame una pista', '¿Cómo voy?', 'Dame ánimo', 'Volver a la app'];
   }
@@ -416,6 +562,39 @@ class _ChatZorroState extends State<_ChatZorro> {
                       ? _burbujaEstudiante(mensaje.texto)
                       : _burbujaZorro(mensaje.texto);
                 },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(14, 8, 14, 12),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _entrada,
+                      textInputAction: TextInputAction.send,
+                      onSubmitted: (_) => _enviarTexto(),
+                      decoration: InputDecoration(
+                        hintText: 'Escribile al zorro...',
+                        filled: true,
+                        fillColor: const Color(0xFF112B45),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(24),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton.filled(
+                    tooltip: 'Enviar mensaje',
+                    onPressed: _enviarTexto,
+                    icon: const Icon(Icons.send_rounded),
+                  ),
+                ],
               ),
             ),
           ],

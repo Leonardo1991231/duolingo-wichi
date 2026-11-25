@@ -31,17 +31,6 @@ class WichiFacilApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: zorroNavigatorKey,
-      builder: (context, child) => Stack(
-        fit: StackFit.expand,
-        children: [
-          child ?? const SizedBox.shrink(),
-          const Positioned(
-            right: 8,
-            bottom: 82,
-            child: SafeArea(child: ZorroAsistente()),
-          ),
-        ],
-      ),
       debugShowCheckedModeBanner: false,
       title: 'Wichí Fácil',
       theme: ThemeData(
